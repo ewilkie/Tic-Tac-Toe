@@ -1,0 +1,60 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    overflow-x: hidden; /* prevenyt scroll in mobile site */
+}
+
+.main-outer {
+
+    background-color: pink;
+    border-radius: 10px;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    border-collapse: collapse;
+    width: 400px;
+    height: 400px;
+    
+}
+
+.base-child {
+    border: 2px solid black; 
+    
+  }
+  
+/* remove top border */
+.base-child:nth-child(-n+3){
+    border-top: none;
+}
+
+/* remove right border */
+.base-child:nth-child(3n){
+    border-right: none;
+}
+
+.base-child:nth-child(n+7){
+    border-bottom: none;
+}
+
+
+/* remove left border */
+.base-child:nth-child(3n+1) {
+    border-left: none;
+}
+
+
+/* this is for the X 
+
+transform: rotate(45deg) translate(8px, 8px);
+transform: rotate(-45deg);
+*/
