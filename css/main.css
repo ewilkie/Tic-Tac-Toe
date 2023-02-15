@@ -30,6 +30,9 @@ html, body {
 .base-child {
     border: 2px solid black; 
     
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
 /* remove top border */
@@ -53,8 +56,25 @@ html, body {
 }
 
 
-/* this is for the X 
 
-transform: rotate(45deg) translate(8px, 8px);
-transform: rotate(-45deg);
-*/
+/* this is for the X */
+.cross {
+    width: 100px;
+}
+
+.cross-span:first-child {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+    
+.cross-span:last-child {
+    transform: rotate(-45deg);
+}
+
+
+.cross-span {
+    display: block;
+    width: 100px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: black;
+}
