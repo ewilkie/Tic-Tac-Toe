@@ -3,18 +3,28 @@
 
 const cells = document.querySelectorAll('.base-child');
 
-let fig = "cross"
 
 cells.forEach(cell => {
     cell.addEventListener('click', handleClick);
-  });
+});
   
+// this needs to be interactively changed based on either user input or who goes first. 
+// doesn't really matter, leave this for now will be defined elsewhere
+let fig = "cross"
+
 function handleClick() {
     // Highlight the cell
-    let c = this.querySelector(".cross");
-    c.classList.toggle('hidden')
+    if (fig == "cross"){
+        let c = this.querySelector(".cross");
+        c.classList.toggle('hidden')
+        fig = "circle";
+    } else {
+        let c = this.querySelector(".circle");
+        c.classList.toggle('hidden')
+        fig = "cross";
+    }
 
-    // Remove the click event listener
+    // Remove the click event listener for cell
     this.removeEventListener('click', handleClick);
 
 }
@@ -22,7 +32,7 @@ function handleClick() {
 function resetGrid() {
     // Remove the highlight class from all cells
     cells.forEach(cell => {
-        cell.classList.remove('highlight');
+        cell.classList.add('hidden');
     });
 
     // Add the click event listener back to all cells
