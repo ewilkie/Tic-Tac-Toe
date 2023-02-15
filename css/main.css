@@ -9,8 +9,6 @@ html, body {
 .main-outer {
 
     background-color: pink;
-    border-radius: 10px;
-
     position: fixed;
     top: 50%;
     left: 50%;
@@ -21,6 +19,12 @@ html, body {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
+
+    grid-template-areas:
+    "cell1 cell2 cell3"
+    "cell4 cell5 cell6"
+    "cell7 cell8 cell9";
+
     border-collapse: collapse;
     width: 400px;
     height: 400px;
@@ -34,6 +38,10 @@ html, body {
     align-items: center;
     justify-content: center;
   }
+
+.base-child:hover{
+    box-shadow: 0px 15px 30px 0px rgba(0,0,0, 0.75);
+}  
   
 /* remove top border */
 .base-child:nth-child(-n+3){
@@ -55,7 +63,45 @@ html, body {
     border-left: none;
 }
 
+.base-child:nth-child(1) {
+    grid-area: cell1;
+  }
+  
+  .base-child:nth-child(2) {
+    grid-area: cell2;
+  }
+  
+  .base-child:nth-child(3) {
+    grid-area: cell3;
+  }
+  
+  .base-child:nth-child(4) {
+    grid-area: cell4;
+  }
+  
+  .base-child:nth-child(5) {
+    grid-area: cell5;
+  }
+  
+  .base-child:nth-child(6) {
+    grid-area: cell6;
+  }
+  
+  .base-child:nth-child(7) {
+    grid-area: cell7;
+  }
+  
+  .base-child:nth-child(8) {
+    grid-area: cell8;
+  }
+  
+  .base-child:nth-child(9) {
+    grid-area: cell9;
+  }
 
+.highlight {
+  background-color: yellow;
+}
 
 /* this is for the X */
 .cross {
@@ -84,6 +130,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 
@@ -93,4 +140,10 @@ html, body {
     display: inline-block;
     height: 60px;
     width: 60px;
+}
+
+
+/* page initialises with icons hidden */ 
+.hidden {
+    display: none;
 }
