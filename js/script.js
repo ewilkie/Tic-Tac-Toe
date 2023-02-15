@@ -1,6 +1,17 @@
+/* TODO */
+// define end game logic
+// for this i need to keep track of which shapes are in which cells
+// translate to 0 and 1
+// define winning orientations as a matrix?
+// [1,1,1]
+// [0,0,0]
+// [0,0,0]
+// etc
+// draw a line through winning combination
+// pop-up displaying winner
 
-/* Functionality for when specific square is pressed */
 
+/* Functionality for when specific square is clicked */
 const cells = document.querySelectorAll('.base-child');
 
 
@@ -53,15 +64,6 @@ cells.forEach(cell => {
     c.classList.toggle('hidden')
   });
 });
-
-/* first make it fully user interactive */
-/* put in following functionality:
-/* only one shape allowed to be visible */
-/* so if square is shown, cannot add circle */
-/* however if user interactive, that means that shapes will alternate
-/* if computer driven, shapes will alternate too */
-/* so perhaps need to disable square after first click */
-
 
 
 /* this doesn't really work */
