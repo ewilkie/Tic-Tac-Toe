@@ -63,6 +63,7 @@ html, body {
     border-left: none;
 }
 
+/*
 .base-child:nth-child(1) {
     grid-area: cell1;
   }
@@ -99,9 +100,11 @@ html, body {
     grid-area: cell9;
   }
 
+
 .highlight {
   background-color: yellow;
 }
+*/
 
 /* this is for the X */
 .cross {
@@ -122,7 +125,7 @@ html, body {
     width: 100px;
     height: 10px;
     border-radius: 5px;
-    background-color: black;
+    background-color: green;
 }
 
 /* for the circle */
@@ -135,7 +138,7 @@ html, body {
 
 
 .circle span {
-    border: 10px solid black;
+    border: 10px solid orange;
     border-radius: 60px;
     display: inline-block;
     height: 60px;
@@ -157,6 +160,7 @@ html, body {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: yellow;
+  opacity: 0.5;
   display: none; /* need to change this when starting game */
 }
 

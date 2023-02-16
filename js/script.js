@@ -1,14 +1,10 @@
 /* TODO */
-// define end game logic
-// for this i need to keep track of which shapes are in which cells
-// translate to 0 and 1
-// define winning orientations as a matrix?
-// [1,1,1]
-// [0,0,0]
-// [0,0,0]
-// etc
+// game start up screen
+// define computer logic
 // draw a line through winning combination
 // pop-up displaying winner
+// sounds
+// scoreboard for x and O
 
 
 // tentative logic
@@ -74,9 +70,10 @@ function handleClick() {
         let c = this.querySelector(".cross");
         c.classList.toggle('hidden')
 
+        // to determine winning
         this.classList.add(PLAYER_X_CLASS)
 
-        // of returns true, end game 
+        // if returns true, end game 
         if (checkWin(currentClass)){
           endGame();
         }
@@ -101,6 +98,11 @@ function handleClick() {
     // Remove the click event listener for cell
     this.removeEventListener('click', handleClick);
 
+    // remove hover styling when cell contains item
+    this.onmouseover = function() {
+      this.style.boxShadow = 'none';
+      console.log(this.style);
+    };
 }
 
 cells.forEach(cell => {
