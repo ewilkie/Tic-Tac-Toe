@@ -47,7 +47,7 @@ let PLAYER_O_CLASS = "O"
 let PLAYER_X_CLASS = "X"
 
 
-// checks whether any of the winning combinations through 'some' contain all current class list in cellElements. 
+// checks whether any of the winning combinations through 'some' contains 'every' current class list in cellElements. 
 // the every method and the some method need to return true for the play to have won 
 // So cell elements needs to be subsettable via index
 function checkWin(currentClass) {
@@ -62,7 +62,7 @@ function checkWin(currentClass) {
 function handleClick() {
 
   // check who's turn it is
-  const currentClass = isPlayer_O_Turn ? PLAYER_O_CLASS : PLAYER_X_CLASS
+  const currentClass = isPlayer_O_Turn ? PLAYER_O_CLASS : PLAYER_X_CLASS;
 
     // add figure in cell 
     if (currentClass == "X"){
@@ -74,8 +74,10 @@ function handleClick() {
         this.classList.add(PLAYER_X_CLASS)
 
         // if returns true, end game 
-        if (checkWin(currentClass)){
-          endGame();
+        if (checkWin(currentClass) === true){
+          endGame(true);
+        }else if (isDraw() === true){
+          endGame(false);
         }
         // swap classes
         isPlayer_O_Turn = true
@@ -87,8 +89,10 @@ function handleClick() {
         this.classList.add(PLAYER_O_CLASS)
 
         // of returns true, end game 
-        if (checkWin(currentClass)){
-          endGame();
+        if (checkWin(currentClass) === true){
+          endGame(true);
+        }else if (isDraw() === true){
+          endGame(false);
         }
 
         // swap classes
@@ -109,11 +113,23 @@ cells.forEach(cell => {
   cell.addEventListener('click', handleClick);
 });
 
+// checks if every cell contains a player class, returns true if thats the case
+function isDraw() {
+  // use .. to convert cell Elements node list to array ( but is already array so not sure if I need this)
+	return [...cellElements].every(cell => {
+		return cell.classList.contains(PLAYER_X_CLASS) || cell.classList.contains(PLAYER_O_CLASS)
+	})
+}
+
 const winningMessageElement = document.querySelector('.results')
 const winningMessageText = document.querySelector('#winningMessageText')
 
-function endGame() {
-  winningMessageText.innerText = `Player with ${isPlayer_O_Turn ? "O" : "X"} wins!`;
+function endGame(end) {
+  if(end) {
+    winningMessageText.innerText = `Player with ${isPlayer_O_Turn ? "O" : "X"} wins!`;
+  } else {
+    winningMessageText.innerText = "Its a draw";
+  }
   winningMessageElement.classList.add('show');
 }
 

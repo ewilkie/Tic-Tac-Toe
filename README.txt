@@ -2,7 +2,7 @@
 
 website inspo from: https://www.codebrainer.com/blog/tic-tac-toe-javascript-game
 compter logic inspo from: https://codepen.io/lando464/pen/BPGEKO (logic flawed)
-javascript function inspo: https://github.com/david-reid/cwd-endscreen-session/blob/master/index.html (game doesn't work propperly)
+
 
 much better example: https://codepen.io/Mihalache/pen/MVOBeV - however computer logic can be optimised, computer most often starts first (better to alternate) and always goes for a corner (better to randomize starting )
 
@@ -27,3 +27,5 @@ whoever goes first is the X
 create start screen
 show game - show game on the fly
 end game screen with winner and restart game
+
+
