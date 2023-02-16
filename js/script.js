@@ -38,7 +38,7 @@ const WINNING_COMBINATIONS = [
 /* Functionality for when specific square is clicked */
 const cells = document.querySelectorAll('.base-child');
 const cellElements = Array.from(cells)
-console.log(cellElements);
+
 
 // checks whether any of the winning combinations through 'some' contain all current class list in cellElements. 
 // the every method and the some method need to return true for the play to have won 
@@ -80,6 +80,11 @@ function handleClick() {
         this.classList.add(PLAYER_X_CLASS)
         console.log(checkWin(currentClass))
 
+        // of returns true, end game 
+        if (checkWin(currentClass)){
+          endGame();
+        }
+
         // swap classes
         isPlayer_O_Turn = true
     } else {
@@ -92,6 +97,10 @@ function handleClick() {
         this.classList.add(PLAYER_O_CLASS)
         console.log(checkWin(currentClass))
 
+        // of returns true, end game 
+        if (checkWin(currentClass)){
+          endGame();
+        }
 
         // swap classes
         isPlayer_O_Turn = false
@@ -100,8 +109,18 @@ function handleClick() {
     // Remove the click event listener for cell
     this.removeEventListener('click', handleClick);
 
-    console.log(this.classList)
 }
+
+const winningMessageElement = document.querySelector('.results')
+const winningMessageText = document.querySelector('#winningMessageText')
+
+function endGame() {
+  winningMessageText.innerText = `Player with ${isPlayer_O_Turn ? "O" : "X"} wins!`;
+  winningMessageElement.classList.add('show');
+}
+
+
+
 
 function resetGrid() {
     // Remove the highlight class from all cells

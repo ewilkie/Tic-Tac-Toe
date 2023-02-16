@@ -147,3 +147,19 @@ html, body {
 .hidden {
     display: none;
 }
+
+/* results div */
+.results {
+  width: 400px;
+  height: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: yellow;
+  display: none; /* need to change this when starting game */
+}
+
+.show {
+  display: block;
+}
