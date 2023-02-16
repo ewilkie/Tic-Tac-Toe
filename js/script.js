@@ -12,9 +12,23 @@
 
 
 //const cellElements = document.querySelectorAll('.base-child')
-
-
 //const cellElements = Array.from(document.querySelectorAll('.base-child'));
+
+
+/* =========================== Start Game ================================= */
+
+let buttonStart = document.querySelector('#startbutton');
+let startDiv = document.querySelector('.game-start');
+let mainDiv = document.querySelector('.main-grid');
+
+
+function startGame() {
+  startDiv.classList.add("hidden");
+  mainDiv.classList.remove("hidden");
+}
+
+buttonStart.addEventListener('click', startGame);
+
 
 
 const WINNING_COMBINATIONS = [
@@ -105,7 +119,6 @@ function handleClick() {
     // remove hover styling when cell contains item
     this.onmouseover = function() {
       this.style.boxShadow = 'none';
-      console.log(this.style);
     };
 }
 

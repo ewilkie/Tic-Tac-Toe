@@ -3,16 +3,101 @@ html, body {
     padding: 0;
     height: 100%;
     font-family: 'Roboto', sans-serif;
-    overflow-x: hidden; /* prevenyt scroll in mobile site */
+    background-color: #BD8D74;
+}
+
+.h1 {
+  font-size: 50px;
+  text-align: center;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
 }
 
 .main-outer {
 
     background-color: pink;
+    border: 2px solid red;
+
+    /* display in center of page */
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    height: 600px;
+    width: 500px;
+  
+}
+
+.game-start {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* for positioning of start button   */
+  position: relative;
+  height: 600px;
+
+}
+
+.selection {
+  display: flex;
+  flex-direction: row;
+  border: 2px solid black;
+}
+
+.selection *:hover {
+  cursor: pointer;
+}
+
+.selection .cross {
+  margin-right: 20px;
+  margin-top: 22px;
+}
+
+/* need to fix this so both are highlighted at the same time */
+.selection.cross *:hover{
+  background-color: black;
+}
+
+.selection .circle span:hover {
+  cursor: pointer;
+  border: 10px solid black;
+}
+
+
+#startbutton {
+
+  background-color: red;
+  cursor: pointer;
+
+  font-weight: bold;
+  border-radius: 5px;
+
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+
+  display: inline;
+  width: fit-content;
+  padding: 15px 20px;
+
+  text-align: center;
+
+}
+
+.main-game {
+    /* place children in center of page */
+    display: flex;
+    justify-content: center;
+    align-items: bottom;
+    background-color: aquamarine;
+
 }
 
 .main-grid {
@@ -28,6 +113,8 @@ html, body {
     border-collapse: collapse;
     width: 400px;
     height: 400px;
+
+    
     
 }
 
@@ -112,7 +199,7 @@ html, body {
 }
 
 .cross-span:first-child {
-    transform: rotate(45deg) translate(5px, 5px);
+    transform: rotate(45deg) translate(10px, 5px);
 }
     
 .cross-span:last-child {
@@ -122,8 +209,8 @@ html, body {
 
 .cross-span {
     display: block;
-    width: 100px;
-    height: 10px;
+    width: 105px;
+    height: 12px;
     border-radius: 5px;
     background-color: green;
 }

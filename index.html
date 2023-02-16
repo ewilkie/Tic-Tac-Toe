@@ -8,97 +8,113 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/normalize.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     </head>
     <body>  
          <main class="main-outer">
-            <section class="main-grid">
-                <div class="base-child">
-                    <div class="cross hidden">
+            <section class="game-start">
+                <h1 class="h1">Tic Tac Toe</h1>
+                <h2>Play as:</h2>
+                <div class="selection">
+                    <div class="cross">
                         <span class="cross-span"></span>
                         <span class="cross-span"></span>
                     </div>
-                    <div class="circle hidden">
+                    <div class="circle">
                         <span class="circle-span"></span>
                     </div>
                 </div>
-                <div class="base-child">
-                    <div class="cross hidden">
-                        <span class="cross-span"></span>
-                        <span class="cross-span"></span>
+                <button id="startbutton"> START!</button>
+            </section>
+            <section class="main-game">
+                <div class="main-grid hidden">
+                    <div class="base-child">
+                        <div class="cross hidden">
+                            <span class="cross-span"></span>
+                            <span class="cross-span"></span>
+                        </div>
+                        <div class="circle hidden">
+                            <span class="circle-span"></span>
+                        </div>
                     </div>
-                    <div class="circle hidden">
-                        <span class="circle-span"></span>
+                    <div class="base-child">
+                        <div class="cross hidden">
+                            <span class="cross-span"></span>
+                            <span class="cross-span"></span>
+                        </div>
+                        <div class="circle hidden">
+                            <span class="circle-span"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="base-child">
-                    <div class="cross hidden">
-                        <span class="cross-span"></span>
-                        <span class="cross-span"></span>
+                    <div class="base-child">
+                        <div class="cross hidden">
+                            <span class="cross-span"></span>
+                            <span class="cross-span"></span>
+                        </div>
+                        <div class="circle hidden">
+                            <span class="circle-span"></span>
+                        </div>
                     </div>
-                    <div class="circle hidden">
-                        <span class="circle-span"></span>
+                    <div class="base-child">
+                        <div class="cross hidden">
+                            <span class="cross-span"></span>
+                            <span class="cross-span"></span>
+                        </div>
+                        <div class="circle hidden">
+                            <span class="circle-span"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="base-child">
-                    <div class="cross hidden">
-                        <span class="cross-span"></span>
-                        <span class="cross-span"></span>
+                    <div class="base-child">
+                        <div class="cross hidden">
+                            <span class="cross-span"></span>
+                            <span class="cross-span"></span>
+                        </div>
+                        <div class="circle hidden">
+                            <span class="circle-span"></span>
+                        </div>
                     </div>
-                    <div class="circle hidden">
-                        <span class="circle-span"></span>
+                    <div class="base-child">
+                        <div class="cross hidden">
+                            <span class="cross-span"></span>
+                            <span class="cross-span"></span>
+                        </div>
+                        <div class="circle hidden">
+                            <span class="circle-span"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="base-child">
-                    <div class="cross hidden">
-                        <span class="cross-span"></span>
-                        <span class="cross-span"></span>
+                    <div class="base-child">
+                        <div class="cross hidden">
+                            <span class="cross-span"></span>
+                            <span class="cross-span"></span>
+                        </div>
+                        <div class="circle hidden">
+                            <span class="circle-span"></span>
+                        </div>
                     </div>
-                    <div class="circle hidden">
-                        <span class="circle-span"></span>
+                    <div class="base-child">
+                        <div class="cross hidden">
+                            <span class="cross-span"></span>
+                            <span class="cross-span"></span>
+                        </div>
+                        <div class="circle hidden">
+                            <span class="circle-span"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="base-child">
-                    <div class="cross hidden">
-                        <span class="cross-span"></span>
-                        <span class="cross-span"></span>
-                    </div>
-                    <div class="circle hidden">
-                        <span class="circle-span"></span>
-                    </div>
-                </div>
-                <div class="base-child">
-                    <div class="cross hidden">
-                        <span class="cross-span"></span>
-                        <span class="cross-span"></span>
-                    </div>
-                    <div class="circle hidden">
-                        <span class="circle-span"></span>
-                    </div>
-                </div>
-                <div class="base-child">
-                    <div class="cross hidden">
-                        <span class="cross-span"></span>
-                        <span class="cross-span"></span>
-                    </div>
-                    <div class="circle hidden">
-                        <span class="circle-span"></span>
-                    </div>
-                </div>
-                <div class="base-child">
-                    <div class="cross hidden">
-                        <span class="cross-span"></span>
-                        <span class="cross-span"></span>
-                    </div>
-                    <div class="circle hidden">
-                        <span class="circle-span"></span>
+                    <div class="base-child">
+                        <div class="cross hidden">
+                            <span class="cross-span"></span>
+                            <span class="cross-span"></span>
+                        </div>
+                        <div class="circle hidden">
+                            <span class="circle-span"></span>
+                        </div>
                     </div>
                 </div>
             </section>
-            <section>
-                <div class="results">
+            <section class="results">
                     <div id="winningMessageText"></div>
                     <button id="resetbutton">End game</button>
-                </div>
+
             </section>
          </main>
         <script src="/js/script.js" ></script>
