@@ -11,8 +11,45 @@
 // pop-up displaying winner
 
 
+// tentative logic
+// add class list to cell to determine is x or o
+
+
+//const cellElements = document.querySelectorAll('.base-child')
+
+
+//const cellElements = Array.from(document.querySelectorAll('.base-child'));
+
+
+const WINNING_COMBINATIONS = [
+	[0, 1, 2],
+	[3, 4, 5],
+	[6, 7, 8],
+	[0, 3, 6],
+	[1, 4, 7],
+	[2, 5, 8],
+	[0, 4, 8],
+	[2, 4, 6]
+]
+
+
+
+
 /* Functionality for when specific square is clicked */
 const cells = document.querySelectorAll('.base-child');
+const cellElements = Array.from(cells)
+console.log(cellElements);
+
+// checks whether any of the winning combinations through 'some' contain all current class list in cellElements. 
+// the every method and the some method need to return true for the play to have won 
+// So cell elements needs to be subsettable via index
+function checkWin(currentClass) {
+	return WINNING_COMBINATIONS.some(combination => {
+		return combination.every(index => {
+			return cellElements[index].classList.contains(currentClass)
+		})
+	})
+}
 
 
 cells.forEach(cell => {
@@ -22,22 +59,48 @@ cells.forEach(cell => {
 // this needs to be interactively changed based on either user input or who goes first. 
 // doesn't really matter, leave this for now will be defined elsewhere
 let fig = "cross"
+let isPlayer_O_Turn = false
+
+// need to set this up during start game
+let PLAYER_O_CLASS = "O"
+let PLAYER_X_CLASS = "X"
+
 
 function handleClick() {
-    // Highlight the cell
-    if (fig == "cross"){
+
+  // check who's turn it is
+  const currentClass = isPlayer_O_Turn ? PLAYER_O_CLASS : PLAYER_X_CLASS
+
+    // add figure in cell 
+    if (currentClass == "X"){
+        // toggle cross visibility
         let c = this.querySelector(".cross");
         c.classList.toggle('hidden')
-        fig = "circle";
+
+        this.classList.add(PLAYER_X_CLASS)
+        console.log(checkWin(currentClass))
+
+        // swap classes
+        isPlayer_O_Turn = true
     } else {
         let c = this.querySelector(".circle");
         c.classList.toggle('hidden')
         fig = "cross";
+        this.classList.add("circle")
+        
+        // add class list to determine winning
+        this.classList.add(PLAYER_O_CLASS)
+        console.log(checkWin(currentClass))
+
+
+        // swap classes
+        isPlayer_O_Turn = false
     }
 
     // Remove the click event listener for cell
     this.removeEventListener('click', handleClick);
 
+    console.log(this.classList)
 }
 
 function resetGrid() {
