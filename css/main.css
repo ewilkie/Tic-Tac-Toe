@@ -149,8 +149,9 @@ h2 {
 .main-game {
     /* place children in center of page */
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: bottom;
+  align-items: center;
     background-color: aquamarine;
 
 }
@@ -159,17 +160,17 @@ h2 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-
+/*
     grid-template-areas:
     "cell1 cell2 cell3"
     "cell4 cell5 cell6"
     "cell7 cell8 cell9";
-
+*/
     border-collapse: collapse;
     width: 400px;
     height: 400px;
 
-    
+    margin: 20px 0px;
     
 }
 
@@ -247,6 +248,23 @@ h2 {
   background-color: yellow;
 }
 */
+.scoreboard {
+  border: 2px solid red;
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: row;
+
+}
+
+.score-section {
+  border: 2px solid black;
+  padding: 20px;
+  margin: 20px;
+
+  
+}
+
 
 /* page initialises with icons hidden */ 
 .hidden {

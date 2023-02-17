@@ -1,10 +1,11 @@
 /* TODO */
-// game start up screen
+// scoreboard for x and O
 // define computer logic
 // draw a line through winning combination
 // pop-up displaying winner
+// resent button
 // sounds
-// scoreboard for x and O
+
 
 
 // tentative logic
@@ -30,6 +31,9 @@ let crossSpan = document.querySelectorAll('.cross-span');
 let circleSpan = document.querySelector('.circle-span');
 
 let isPlayer_O_Turn;
+let player_symbol = document.querySelector('.score-player-symbol');
+let pc_symbol = document.querySelector('.score-pc-symbol');
+
 
 function playerSelection(event, type) {
   event.preventDefault();
@@ -39,7 +43,8 @@ function playerSelection(event, type) {
       circleSpan.style.border = "10px solid orange"
 
       isPlayer_O_Turn = false;
-      console.log(isPlayer_O_Turn);
+      player_symbol.innerHTML = "Player - X"
+      pc_symbol.innerHTML = " PC - O"
 
     } else {
 
@@ -47,7 +52,8 @@ function playerSelection(event, type) {
       crossSpan.forEach(c => {c.style.backgroundColor = "green"});
 
       isPlayer_O_Turn = true;
-      console.log(isPlayer_O_Turn);
+      player_symbol.innerHTML = "Player - O"
+      pc_symbol.innerHTML = "PC - X"
 
     }
   
@@ -66,6 +72,7 @@ let PLAYER_X_CLASS = "X"
 let buttonStart = document.querySelector('#startbutton');
 let startDiv = document.querySelector('.game-start');
 let mainDiv = document.querySelector('.main-grid');
+let scoreBoard = document.querySelector('.scoreboard');
 
 
 function startGame(event) {
@@ -76,6 +83,11 @@ function startGame(event) {
   }else {
     startDiv.classList.add("hidden");
     mainDiv.classList.remove("hidden");
+    scoreBoard.classList.remove("hidden");
+
+    // reset colours to original 
+    circleSpan.style.border = "10px solid orange";
+    crossSpan.forEach(c => {c.style.backgroundColor = "green"});
   }
 }
 
