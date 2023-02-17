@@ -53,15 +53,8 @@ function playerSelection(event, type) {
   
 }
 
-
-
-//!!! IMportant: prevent came start without a selection being made
-
 crossSelect.addEventListener('click', function(event) {playerSelection(event, cross)});
 circleSelect.addEventListener('click', function(event) {playerSelection(event, circle)});
-
-// this needs to be interactively changed based on either user input or who goes first. 
-// doesn't really matter, leave this for now will be defined elsewhere
 
 /* =========================== Start Game ================================= */
 
@@ -75,9 +68,15 @@ let startDiv = document.querySelector('.game-start');
 let mainDiv = document.querySelector('.main-grid');
 
 
-function startGame() {
-  startDiv.classList.add("hidden");
-  mainDiv.classList.remove("hidden");
+function startGame(event) {
+
+  //prevent game start without a selection being made
+  if(isPlayer_O_Turn === undefined){
+    event.preventDefault();
+  }else {
+    startDiv.classList.add("hidden");
+    mainDiv.classList.remove("hidden");
+  }
 }
 
 buttonStart.addEventListener('click', startGame);
