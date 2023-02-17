@@ -14,8 +14,61 @@
 //const cellElements = document.querySelectorAll('.base-child')
 //const cellElements = Array.from(document.querySelectorAll('.base-child'));
 
+/* =========================== Player selection ================================= */
+
+
+
+// Add click event to X and O on startgame screen
+// change colour when selected and assign player classes
+let crossSelect = document.querySelector('.cross');
+let circleSelect = document.querySelector('.circle');
+
+let cross = "cross";
+let circle = "circle";
+
+let crossSpan = document.querySelectorAll('.cross-span');
+let circleSpan = document.querySelector('.circle-span');
+
+let isPlayer_O_Turn;
+
+function playerSelection(event, type) {
+  event.preventDefault();
+    if (type == cross){
+
+      crossSpan.forEach(c => {c.style.backgroundColor = "black"});
+      circleSpan.style.border = "10px solid orange"
+
+      isPlayer_O_Turn = false;
+      console.log(isPlayer_O_Turn);
+
+    } else {
+
+      circleSpan.style.border = "10px solid black"
+      crossSpan.forEach(c => {c.style.backgroundColor = "green"});
+
+      isPlayer_O_Turn = true;
+      console.log(isPlayer_O_Turn);
+
+    }
+  
+}
+
+
+
+//!!! IMportant: prevent came start without a selection being made
+
+crossSelect.addEventListener('click', function(event) {playerSelection(event, cross)});
+circleSelect.addEventListener('click', function(event) {playerSelection(event, circle)});
+
+// this needs to be interactively changed based on either user input or who goes first. 
+// doesn't really matter, leave this for now will be defined elsewhere
 
 /* =========================== Start Game ================================= */
+
+// need to set this up during start game
+let PLAYER_O_CLASS = "O"
+let PLAYER_X_CLASS = "X"
+
 
 let buttonStart = document.querySelector('#startbutton');
 let startDiv = document.querySelector('.game-start');
@@ -30,7 +83,6 @@ function startGame() {
 buttonStart.addEventListener('click', startGame);
 
 
-
 const WINNING_COMBINATIONS = [
 	[0, 1, 2],
 	[3, 4, 5],
@@ -43,22 +95,11 @@ const WINNING_COMBINATIONS = [
 ]
 
 
-
-
 /* Functionality for when specific square is clicked */
 let cells = document.querySelectorAll('.base-child');
 
 // need array for winning combinations check based on index
 let cellElements = Array.from(cells)
-
-// this needs to be interactively changed based on either user input or who goes first. 
-// doesn't really matter, leave this for now will be defined elsewhere
-
-let isPlayer_O_Turn = false
-
-// need to set this up during start game
-let PLAYER_O_CLASS = "O"
-let PLAYER_X_CLASS = "X"
 
 
 // checks whether any of the winning combinations through 'some' contains 'every' current class list in cellElements. 
