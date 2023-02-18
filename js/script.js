@@ -208,7 +208,7 @@ function endGame(end, classtype) {
   } else if (end === false){
     winningMessageText.innerText = "Its a draw";
   }
-  winningMessageElement.classList.add('show');
+  winningMessageElement.classList.remove('hidden');
 }
 
 /* ================================ Score ============================= */
@@ -247,7 +247,7 @@ function resetGrid() {
 let buttonReplay = document.querySelector('#replaybutton');
 
 function resetGame() {
-  winningMessageElement.classList.remove('show');
+  winningMessageElement.classList.add('hidden');
   resetGrid()
 }
 
@@ -259,7 +259,7 @@ buttonReplay.addEventListener('click', resetGame);
 let buttonQuit = document.querySelector('#quitbutton');
 
 function quitGame() {
-  winningMessageElement.classList.remove('show');
+  winningMessageElement.classList.add('hidden');
   resetGrid()
   startDiv.classList.remove("hidden");
   mainDiv.classList.add("hidden");

@@ -197,10 +197,10 @@ h2 {
     border-right: none;
 }
 
+/* remove bottom border */
 .base-child:nth-child(n+7){
     border-bottom: none;
 }
-
 
 /* remove left border */
 .base-child:nth-child(3n+1) {
@@ -233,30 +233,30 @@ h2 {
 
 /* results div */
 .endgame {
-  width: 400px;
+  /*
+  width: 200px;
   height: 385px;
   
   position: fixed;
   top: 20px;
   left: 50px;
+
+  margin: 0 auto;
   /*
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); */
   background-color: rgba(255,153,253, 0.75);
-  display: none; /* need to change this when starting game */
   border: 2px solid red;
+
+
 }
 
-.engame-buttons {
+.endgame-buttons {
   border: 2px solid red;
   display: flex;
   justify-content: center;
 
-}
-
-.show {
-  display: block;
 }
 
 
