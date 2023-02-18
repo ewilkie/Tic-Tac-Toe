@@ -21,6 +21,9 @@ let circleSelect = document.querySelector('.circle');
 let cross = "cross";
 let circle = "circle";
 
+let player;
+let pc;
+
 let crossSpan = document.querySelectorAll('.cross-span');
 let circleSpan = document.querySelector('.circle-span');
 
@@ -40,6 +43,9 @@ function playerSelection(event, type) {
       player_symbol.innerHTML = "Player - X";
       pc_symbol.innerHTML = " PC - O";
 
+      player = "X";
+      pc = "O";
+
     } else {
 
       circleSpan.style.border = "10px solid black";
@@ -48,6 +54,9 @@ function playerSelection(event, type) {
       isPlayer_O_Turn = true;
       player_symbol.innerHTML = "Player - O";
       pc_symbol.innerHTML = "PC - X";
+
+      player = "O";
+      pc = "X";
 
     }
   
@@ -131,14 +140,15 @@ function handleClick() {
         let c = this.querySelector(".cross");
         c.classList.toggle('hidden')
 
-        // to determine winning
+        // to determine winning add class to each cell depending on type X or O
         this.classList.add(PLAYER_X_CLASS)
 
         // if returns true, end game 
         if (checkWin(currentClass) === true){
-          endGame(true);
+          //console.log(currentClass);
+          endGame(true,currentClass);
         }else if (isDraw() === true){
-          endGame(false);
+          endGame(false,currentClass);
         }
         // swap classes
         isPlayer_O_Turn = true
@@ -149,11 +159,12 @@ function handleClick() {
         // add class list to determine winning
         this.classList.add(PLAYER_O_CLASS)
 
-        // of returns true, end game 
+        // if returns true, end game 
         if (checkWin(currentClass) === true){
-          endGame(true);
+          //console.log(currentClass);
+          endGame(true,currentClass);
         }else if (isDraw() === true){
-          endGame(false);
+          endGame(false,currentClass);
         }
 
         // swap classes
@@ -183,10 +194,26 @@ function isDraw() {
 const winningMessageElement = document.querySelector('.endgame')
 const winningMessageText = document.querySelector('#winningMessageText')
 
-function endGame(end) {
-  if(end) {
-    winningMessageText.innerText = `Player with ${isPlayer_O_Turn ? "O" : "X"} wins!`;
-  } else {
+function endGame(end, classtype) {
+  //console.log(player_symbol);
+
+
+  if (end === true){
+    console.log(player)
+    if(classtype === "X" && player === "X") {
+      winningMessageText.innerText = "you win";
+    } else if (classtype === "X" && pc === "X"){
+        winningMessageText.innerText = "pc wins";
+    } else if(classtype === "O" && player === "O") {
+      winningMessageText.innerText = "you win";
+    } else if (classtype === "O" && pc === "O"){
+        winningMessageText.innerText = "pc wins";
+    }
+
+    //winningMessageText.innerText = `Player with ${isPlayer_O_Turn ? "O" : "X"} wins!`;
+    //winningMessageText.innerText = ` `
+    
+  } else if (end === false){
     winningMessageText.innerText = "Its a draw";
   }
   winningMessageElement.classList.add('show');
