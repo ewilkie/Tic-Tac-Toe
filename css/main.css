@@ -13,17 +13,12 @@ html, body {
   width: 100%;
   text-align: center;
   background-color: blueviolet;
-  background: linear-gradient(to top, #52007A, #E4ADFF);
+  background: linear-gradient(to top, #52007A, #D1B09E);
 }
 
 h2 {
   text-align: center;
 }
-
-
-
-
-
 
 .main-outer {
 
@@ -253,6 +248,15 @@ h2 {
   border: 2px solid red;
 }
 
+.engame-buttons {
+  border: 2px solid red;
+  display: flex;
+  justify-content: center;
+
+}
+
 .show {
   display: block;
 }
+
+

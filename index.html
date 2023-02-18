@@ -30,8 +30,8 @@
                 </div>
                 <button class="button" id="startbutton"> START!</button>
             </section>
-            <section class="main-game">
-                <div class="main-grid hidden">
+            <section class="main-game hidden">
+                <div class="main-grid">
                     <div class="base-child">
                         <div class="cross hidden">
                             <span class="cross-span"></span>
@@ -114,7 +114,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="scoreboard hidden">
+                <div class="scoreboard">
                     <div class="score-section">
                         <h3 class="score-player-symbol"></h3>
                         <div class="score score-player"></div>
@@ -129,9 +129,11 @@
                 </div>
             </section>
             <section class="endgame">
-                    <div id="winningMessageText"></div>
+                <div id="winningMessageText"></div>
+                <div class="engame-buttons">
                     <button class="button" id="quitbutton">Quit</button>
                     <button class="button" id="replaybutton">Replay</button>
+                </div>
             </section>
          </main>
         <script src="/js/script.js" ></script>

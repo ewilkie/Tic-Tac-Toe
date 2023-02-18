@@ -73,8 +73,7 @@ let PLAYER_X_CLASS = "X"
 
 let buttonStart = document.querySelector('#startbutton');
 let startDiv = document.querySelector('.game-start');
-let mainDiv = document.querySelector('.main-grid');
-let scoreBoard = document.querySelector('.scoreboard');
+let mainDiv = document.querySelector('.main-game');
 
 
 function startGame(event) {
@@ -85,7 +84,6 @@ function startGame(event) {
   }else {
     startDiv.classList.add("hidden");
     mainDiv.classList.remove("hidden");
-    scoreBoard.classList.remove("hidden");
 
     // return icons to original color
     crossSpan.forEach(c => {c.style.backgroundColor = "green"});
@@ -265,7 +263,6 @@ function quitGame() {
   resetGrid()
   startDiv.classList.remove("hidden");
   mainDiv.classList.add("hidden");
-  scoreBoard.classList.add("hidden");
 
 }
 
