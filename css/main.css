@@ -6,18 +6,24 @@ html, body {
     background-color: #BD8D74;
 }
 
-.h1 {
+h1 {
   font-size: 50px;
   color: white;
   padding: 20px 0px;
   width: 100%;
   text-align: center;
-  background-color: blueviolet;
   background: linear-gradient(to top, #52007A, #D1B09E);
 }
 
 h2 {
   text-align: center;
+}
+
+h4 {
+  font-size: 50px;
+  text-align: center;
+  margin: 0 0 20px 0;
+  padding: 20px;
 }
 
 .main-outer {
@@ -233,11 +239,17 @@ h2 {
 
 /* results div */
 .endgame {
+
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   /*
   width: 200px;
   height: 385px;
   
-  position: fixed;
+  
   top: 20px;
   left: 50px;
 
@@ -246,17 +258,20 @@ h2 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); */
-  background-color: rgba(255,153,253, 0.75);
-  border: 2px solid red;
-
+  background-color: rgba(255,153,253, 0.8);
+  border-radius: 5px;
+  border: 3px dashed rgba(255,255,255,0.2);
 
 }
 
 .endgame-buttons {
-  border: 2px solid red;
-  display: flex;
-  justify-content: center;
 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin:0;
+  padding:0;
 }
 
 

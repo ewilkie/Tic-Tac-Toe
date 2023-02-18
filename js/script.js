@@ -10,8 +10,6 @@
 
 /* =========================== Player selection ================================= */
 
-
-
 // Add click event to X and O on startgame screen
 // change colour when selected and assign player classes
 let crossSelect = document.querySelector('.cross');
@@ -188,25 +186,27 @@ function isDraw() {
 	})
 }
 
-const winningMessageElement = document.querySelector('.endgame')
-const winningMessageText = document.querySelector('#winningMessageText')
+let winningMessageElement = document.querySelector('.endgame');
+let winningMessageText = document.querySelector('#winningMessageText');
+
+
 
 function endGame(end, classtype) {
 
   if (end === true){
-    console.log(player)
+
     if(classtype === "X" && player === "X") {
-      winningMessageText.innerText = "you win";
+      winningMessageText.textContent = "You win";
     } else if (classtype === "X" && pc === "X"){
-        winningMessageText.innerText = "pc wins";
+        winningMessageText.textContent = "PC wins";
     } else if(classtype === "O" && player === "O") {
-      winningMessageText.innerText = "you win";
+      winningMessageText.textContent = "You win";
     } else if (classtype === "O" && pc === "O"){
-        winningMessageText.innerText = "pc wins";
+        winningMessageText.textContent = "PC wins";
     }
     
   } else if (end === false){
-    winningMessageText.innerText = "Its a draw";
+    winningMessageText.textContent = "Its a draw";
   }
   winningMessageElement.classList.remove('hidden');
 }
@@ -216,6 +216,8 @@ function endGame(end, classtype) {
 
 
 /* ================================ Reset Game ============================= */
+
+let reset;
 
 function resetGrid() {
   // Remove classes
@@ -240,6 +242,8 @@ function resetGrid() {
       this.classList.add('active');
     };  
   });
+
+  reset = true;
 }
 
 /* =========================== replay game =================================== */
