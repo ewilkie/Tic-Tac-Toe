@@ -156,9 +156,9 @@ h2 {
     display: flex;
     flex-direction: column;
     justify-content: center;
-  align-items: center;
+    align-items: center;
     background-color: #D1B09E;
-
+    border-radius: 10px;
 }
 
 .main-grid {
@@ -173,7 +173,7 @@ h2 {
 */
     border-collapse: collapse;
     width: 400px;
-    height: 400px;
+    height: 385px;
 
     margin: 20px 0px;
     
@@ -211,48 +211,6 @@ h2 {
     border-left: none;
 }
 
-/*
-.base-child:nth-child(1) {
-    grid-area: cell1;
-  }
-  
-  .base-child:nth-child(2) {
-    grid-area: cell2;
-  }
-  
-  .base-child:nth-child(3) {
-    grid-area: cell3;
-  }
-  
-  .base-child:nth-child(4) {
-    grid-area: cell4;
-  }
-  
-  .base-child:nth-child(5) {
-    grid-area: cell5;
-  }
-  
-  .base-child:nth-child(6) {
-    grid-area: cell6;
-  }
-  
-  .base-child:nth-child(7) {
-    grid-area: cell7;
-  }
-  
-  .base-child:nth-child(8) {
-    grid-area: cell8;
-  }
-  
-  .base-child:nth-child(9) {
-    grid-area: cell9;
-  }
-
-
-.highlight {
-  background-color: yellow;
-}
-*/
 .scoreboard {
   border: 2px solid red;
   margin-top: 20px;
@@ -266,10 +224,11 @@ h2 {
   border: 2px solid black;
   padding: 20px;
   margin: 20px;
-
-  
 }
 
+.score {
+  border: 2px solid pink;
+}
 
 /* page initialises with icons hidden */ 
 .hidden {
@@ -277,16 +236,20 @@ h2 {
 }
 
 /* results div */
-.results {
+.endgame {
   width: 400px;
-  height: 400px;
+  height: 385px;
+  
   position: fixed;
+  top: 20px;
+  left: 50px;
+  /*
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: yellow;
-  opacity: 0.5;
+  transform: translate(-50%, -50%); */
+  background-color: rgba(255,153,253, 0.75);
   display: none; /* need to change this when starting game */
+  border: 2px solid red;
 }
 
 .show {

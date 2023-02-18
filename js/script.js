@@ -5,15 +5,9 @@
 // pop-up displaying winner
 // resent button
 // sounds
+// styling
 
 
-
-// tentative logic
-// add class list to cell to determine is x or o
-
-
-//const cellElements = document.querySelectorAll('.base-child')
-//const cellElements = Array.from(document.querySelectorAll('.base-child'));
 
 /* =========================== Player selection ================================= */
 
@@ -34,26 +28,26 @@ let isPlayer_O_Turn;
 let player_symbol = document.querySelector('.score-player-symbol');
 let pc_symbol = document.querySelector('.score-pc-symbol');
 
-
+// need to refine this so its less hacky using a different method from changing style ?
 function playerSelection(event, type) {
   event.preventDefault();
     if (type == cross){
 
       crossSpan.forEach(c => {c.style.backgroundColor = "black"});
-      circleSpan.style.border = "10px solid orange"
+      circleSpan.style.border = "10px solid orange";
 
       isPlayer_O_Turn = false;
-      player_symbol.innerHTML = "Player - X"
-      pc_symbol.innerHTML = " PC - O"
+      player_symbol.innerHTML = "Player - X";
+      pc_symbol.innerHTML = " PC - O";
 
     } else {
 
-      circleSpan.style.border = "10px solid black"
+      circleSpan.style.border = "10px solid black";
       crossSpan.forEach(c => {c.style.backgroundColor = "green"});
 
       isPlayer_O_Turn = true;
-      player_symbol.innerHTML = "Player - O"
-      pc_symbol.innerHTML = "PC - X"
+      player_symbol.innerHTML = "Player - O";
+      pc_symbol.innerHTML = "PC - X";
 
     }
   
@@ -64,7 +58,7 @@ circleSelect.addEventListener('click', function(event) {playerSelection(event, c
 
 /* =========================== Start Game ================================= */
 
-// need to set this up during start game
+
 let PLAYER_O_CLASS = "O"
 let PLAYER_X_CLASS = "X"
 
@@ -85,14 +79,15 @@ function startGame(event) {
     mainDiv.classList.remove("hidden");
     scoreBoard.classList.remove("hidden");
 
-    // reset colours to original 
-    circleSpan.style.border = "10px solid orange";
+    // return icons to original color
     crossSpan.forEach(c => {c.style.backgroundColor = "green"});
+    circleSpan.style.border = "10px solid orange";
   }
 }
 
 buttonStart.addEventListener('click', startGame);
 
+/* =========================== Game Logic ================================= */
 
 const WINNING_COMBINATIONS = [
 	[0, 1, 2],
@@ -114,12 +109,12 @@ let cellElements = Array.from(cells)
 
 
 // checks whether any of the winning combinations through 'some' contains 'every' current class list in cellElements. 
-// the every method and the some method need to return true for the play to have won 
+// the every method and the some method need to return true for there to be a winner
 // So cell elements needs to be subsettable via index
 function checkWin(currentClass) {
 	return WINNING_COMBINATIONS.some(combination => {
 		return combination.every(index => {
-			return cellElements[index].classList.contains(currentClass)
+			return cellElements[index].classList.contains(currentClass);
 		})
 	})
 }
@@ -131,7 +126,7 @@ function handleClick() {
   const currentClass = isPlayer_O_Turn ? PLAYER_O_CLASS : PLAYER_X_CLASS;
 
     // add figure in cell 
-    if (currentClass == "X"){
+    if (currentClass === "X"){
         // toggle cross visibility
         let c = this.querySelector(".cross");
         c.classList.toggle('hidden')
@@ -180,13 +175,12 @@ cells.forEach(cell => {
 
 // checks if every cell contains a player class, returns true if thats the case
 function isDraw() {
-  // use .. to convert cell Elements node list to array ( but is already array so not sure if I need this)
-	return [...cellElements].every(cell => {
+	return cellElements.every(cell => {
 		return cell.classList.contains(PLAYER_X_CLASS) || cell.classList.contains(PLAYER_O_CLASS)
 	})
 }
 
-const winningMessageElement = document.querySelector('.results')
+const winningMessageElement = document.querySelector('.endgame')
 const winningMessageText = document.querySelector('#winningMessageText')
 
 function endGame(end) {
@@ -203,22 +197,23 @@ function endGame(end) {
 function resetGrid() {
   // Remove classes
   cells.forEach(cell => {
-      // make cross hidden
-      let cross = cell.querySelector(".cross");
-      cross.classList.add('hidden');
+    // make cross hidden
+    let cross = cell.querySelector(".cross");
+    cross.classList.add('hidden');
 
-      // make circle hidden 
-      let circle = cell.querySelector(".circle");
-      circle.classList.add('hidden');
+    // make circle hidden 
+    let circle = cell.querySelector(".circle");
+    circle.classList.add('hidden');
 
-      // remove classess added to determine winning combination
-      cell.classList.remove(PLAYER_O_CLASS);
-      cell.classList.remove(PLAYER_X_CLASS);
-  });
+    // remove classess added to determine winning combination
+    cell.classList.remove(PLAYER_O_CLASS);
+    cell.classList.remove(PLAYER_X_CLASS);
 
-  // Add the click event listener back to all cells
-  cells.forEach(cell => {
-      cell.addEventListener('click', handleClick);
+    // Add the click event listener back to all cells
+    cell.addEventListener('click', handleClick);
+
+    // add hover styling when cell contains item
+    cell.style.boxShadow = '0px 0px 10px 2px rgba(0,0,0, 0.75);';
   });
 }
 
