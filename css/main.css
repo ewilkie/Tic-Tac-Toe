@@ -8,11 +8,12 @@ html, body {
 
 .h1 {
   font-size: 50px;
-  border: 2px solid red;
+  color: white;
   padding: 20px 0px;
   width: 100%;
   text-align: center;
   background-color: blueviolet;
+  background: linear-gradient(to top, #52007A, #E4ADFF);
 }
 
 h2 {
@@ -26,8 +27,9 @@ h2 {
 
 .main-outer {
 
-    background-color: pink;
-    border: 2px solid red;
+    background-color: #D1B09E;
+    border: 3px dashed rgba(255,255,255,0.2);
+    border-radius: 10px;
 
     /* display in center of page */
     position: fixed;
@@ -125,11 +127,14 @@ h2 {
 
 #startbutton {
 
-  background-color: red;
+  background-color: #6D00A3;
+  color: white;
   cursor: pointer;
 
   font-weight: bold;
   border-radius: 5px;
+  border: none;
+  box-shadow: 0px 0px 10px 2px rgba(0,0,0, 0.75);
 /*
   position: absolute;
   bottom: 30px;
@@ -152,7 +157,7 @@ h2 {
     flex-direction: column;
     justify-content: center;
   align-items: center;
-    background-color: aquamarine;
+    background-color: #D1B09E;
 
 }
 
