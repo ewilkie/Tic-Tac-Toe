@@ -176,8 +176,8 @@ function handleClick() {
 
     // remove hover styling when cell contains item
     this.onmouseover = function() {
-      this.style.boxShadow = 'none';
-    };
+      this.classList.remove('active');
+    };   
 }
 
 cells.forEach(cell => {
@@ -240,20 +240,38 @@ function resetGrid() {
     cell.addEventListener('click', handleClick);
 
     // add hover styling when cell contains item
-    cell.style.boxShadow = '0px 0px 10px 2px rgba(0,0,0, 0.75);';
+    this.onmouseover = function() {
+      this.classList.add('active');
+    };  
   });
 }
 
+/* =========================== replay game =================================== */
 
-let buttonReset = document.querySelector('#resetbutton');
+let buttonReplay = document.querySelector('#replaybutton');
 
 function resetGame() {
   winningMessageElement.classList.remove('show');
   resetGrid()
 }
 
-buttonReset.addEventListener('click', resetGame);
+buttonReplay.addEventListener('click', resetGame);
 
+
+/* =========================== return to start =================================== */
+
+let buttonQuit = document.querySelector('#quitbutton');
+
+function quitGame() {
+  winningMessageElement.classList.remove('show');
+  resetGrid()
+  startDiv.classList.remove("hidden");
+  mainDiv.classList.add("hidden");
+  scoreBoard.classList.add("hidden");
+
+}
+
+buttonQuit.addEventListener('click', quitGame);
 
 
 /*
