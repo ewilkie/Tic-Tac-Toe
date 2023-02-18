@@ -1,9 +1,8 @@
 /* TODO */
+// pop-up displaying winner
 // scoreboard for x and O
 // define computer logic
 // draw a line through winning combination
-// pop-up displaying winner
-// resent button
 // sounds
 // styling
 
@@ -145,7 +144,7 @@ function handleClick() {
 
         // if returns true, end game 
         if (checkWin(currentClass) === true){
-          //console.log(currentClass);
+
           endGame(true,currentClass);
         }else if (isDraw() === true){
           endGame(false,currentClass);
@@ -161,7 +160,7 @@ function handleClick() {
 
         // if returns true, end game 
         if (checkWin(currentClass) === true){
-          //console.log(currentClass);
+
           endGame(true,currentClass);
         }else if (isDraw() === true){
           endGame(false,currentClass);
@@ -195,8 +194,6 @@ const winningMessageElement = document.querySelector('.endgame')
 const winningMessageText = document.querySelector('#winningMessageText')
 
 function endGame(end, classtype) {
-  //console.log(player_symbol);
-
 
   if (end === true){
     console.log(player)
@@ -209,15 +206,16 @@ function endGame(end, classtype) {
     } else if (classtype === "O" && pc === "O"){
         winningMessageText.innerText = "pc wins";
     }
-
-    //winningMessageText.innerText = `Player with ${isPlayer_O_Turn ? "O" : "X"} wins!`;
-    //winningMessageText.innerText = ` `
     
   } else if (end === false){
     winningMessageText.innerText = "Its a draw";
   }
   winningMessageElement.classList.add('show');
 }
+
+/* ================================ Score ============================= */
+
+
 
 /* ================================ Reset Game ============================= */
 
@@ -273,61 +271,3 @@ function quitGame() {
 
 buttonQuit.addEventListener('click', quitGame);
 
-
-/*
- this adds event listeners to each square 
-const cells = document.querySelectorAll('.base-child');
-
-cells.forEach(cell => {
-  cell.addEventListener('click', () => {
-    cell.classList.toggle('highlight');
-    let c = cell.querySelector(".cross");
-    console.log(c);
-    c.classList.toggle('hidden')
-  });
-});
-
-
-/* this doesn't really work */
-/* need to keep track of if there is already is a shape in there 
-// Get the grid container element
-const gridContainer = document.querySelector('.main-grid');
-
-// Add a click event listener to the grid container element
-gridContainer.addEventListener('click', event => {
-  // Get the target element that was clicked
-  const clickedElement = event.target;
-
-  
-  // Get the grid area of the clicked element
-  const gridArea = window.getComputedStyle(clickedElement).getPropertyValue('grid-area');
-/* this doesn't work
-  // Get the grid template areas of the grid container
-  const gridTemplateAreas = window.getComputedStyle(gridContainer).getPropertyValue('grid-template-areas');
-
-  // Split the grid template areas into rows
-  const rows = gridTemplateAreas.split('" "');
-
-  console.log( gridArea);
-  // Find the row and column of the clicked element
-  let row = 0;
-  let column = 0;
-
-  rows.forEach((rowTemplate, rowIndex) => {
-    const columns = rowTemplate.split(' ');
-
-    columns.forEach((columnTemplate, columnIndex) => {
-      if (columnTemplate === gridArea) {
-        row = rowIndex + 1;
-        column = columnIndex + 1;
-      }
-    });
-  });
-
-  // Log the row and column to the console
-  console.log(`Grid item at row ${row} and column ${column} was clicked`);
-
-    console.log( gridArea);
-  clickedElement.classList.remove("hidden");
-});
-*/
