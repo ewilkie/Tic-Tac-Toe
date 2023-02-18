@@ -228,8 +228,16 @@ h4 {
   margin: 20px;
 }
 
+.score-section h3 {
+  margin:0;
+  border: 2px solid green;
+}
+
 .score {
   border: 2px solid pink;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
 }
 
 /* page initialises with icons hidden */ 

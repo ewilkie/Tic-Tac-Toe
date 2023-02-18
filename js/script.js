@@ -64,11 +64,6 @@ circleSelect.addEventListener('click', function(event) {playerSelection(event, c
 
 /* =========================== Start Game ================================= */
 
-
-//let PLAYER_O_CLASS = "O"
-//let PLAYER_X_CLASS = "X"
-
-
 let buttonStart = document.querySelector('#startbutton');
 let startDiv = document.querySelector('.game-start');
 let mainDiv = document.querySelector('.main-game');
@@ -182,36 +177,58 @@ cells.forEach(cell => {
 // checks if every cell contains a player class, returns true if thats the case
 function isDraw() {
 	return cellElements.every(cell => {
-		return cell.classList.contains(cross) || cell.classList.contains(circle)
+		return cell.classList.contains(cross) || cell.classList.contains(circle);
 	})
 }
 
 let winningMessageElement = document.querySelector('.endgame');
 let winningMessageText = document.querySelector('#winningMessageText');
 
+// check which player is what symbol
+// keep track of score
+
+let playerScoreDiv = document.querySelector('.score-player');
+let pcScoreDiv = document.querySelector('.score-pc');
+let tiesDiv = document.querySelector('.ties');
 
 
 function endGame(end, classtype) {
+
+  let playerScore = parseInt(playerScoreDiv.textContent);
+  let pcScore = parseInt(pcScoreDiv.textContent);
+  let ties = parseInt(tiesDiv.textContent);
 
   if (end === true){
 
     if(classtype === "X" && player === "X") {
       winningMessageText.textContent = "You win";
+      playerScore += 1;
+      playerScoreDiv.innerHTML = playerScore
     } else if (classtype === "X" && pc === "X"){
         winningMessageText.textContent = "PC wins";
+        pcScore += 1;
+        pcScoreDiv.innerHTML = pcScore
     } else if(classtype === "O" && player === "O") {
       winningMessageText.textContent = "You win";
+      playerScore += 1;
+      playerScoreDiv.innerHTML = playerScore
     } else if (classtype === "O" && pc === "O"){
         winningMessageText.textContent = "PC wins";
+        pcScore += 1;
+        pcScoreDiv.innerHTML = pcScore
     }
     
   } else if (end === false){
     winningMessageText.textContent = "Its a draw";
+    ties += 1;
+    tiesDiv.innerHTML = ties
   }
   winningMessageElement.classList.remove('hidden');
 }
 
 /* ================================ Score ============================= */
+
+
 
 
 
@@ -240,6 +257,11 @@ function resetGrid() {
       this.classList.add('active');
     };  
   });
+
+  // reset score
+  playerScoreDiv.innerHTML = 0
+  pcScoreDiv.innerHTML = 0
+  tiesDiv = 0;
 }
 
 /* =========================== replay game =================================== */
