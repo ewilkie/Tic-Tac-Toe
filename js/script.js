@@ -1,6 +1,5 @@
 /* TODO */
-// pop-up displaying winner
-// scoreboard for x and O
+
 // define computer logic
 // draw a line through winning combination
 // sounds
@@ -28,6 +27,15 @@ let isPlayer_O_Turn;
 let player_symbol = document.querySelector('.score-player-symbol');
 let pc_symbol = document.querySelector('.score-pc-symbol');
 
+
+// to keep track of if computer goes first or someone else
+let goFirst;
+
+function pcMove(){
+  console.log("pc")
+}
+
+
 // need to refine this so its less hacky using a different method from changing style ?
 function playerSelection(event, type) {
   event.preventDefault();
@@ -43,6 +51,8 @@ function playerSelection(event, type) {
       player = "X";
       pc = "O";
 
+      goFirst = "player";
+
     } else {
 
       circleSpan.style.border = "10px solid black";
@@ -54,6 +64,8 @@ function playerSelection(event, type) {
 
       player = "O";
       pc = "X";
+
+      goFirst = "pc";
 
     }
   
@@ -81,6 +93,10 @@ function startGame(event) {
     // return icons to original color
     crossSpan.forEach(c => {c.style.backgroundColor = "green"});
     circleSpan.style.border = "10px solid orange";
+
+
+    // put in a catch here to determine who goes first?? 
+    // if goFirs t
   }
 }
 
@@ -118,11 +134,64 @@ function checkWin(currentClass) {
 	})
 }
 
+// how to determine which winning combination to draw a line through it
+// returns an array [0,1,2] with the index of the cells
+function getWin(currentClass) {
+	return WINNING_COMBINATIONS.find(combination => {
+		return combination.every(index => {
+			 return cellElements[index].classList.contains(currentClass);
+		})
+	})
+}
+
+// how to draw the lines
+// in css determine horizontal, vertical and top-to-bottom and bottom-to-top
+
+/*
+
+.hline-through {
+  border: 1px solid black;
+  grid-column: 1 / -1;
+}
+
+.vline-through {
+  border-left: 1px solid black;
+  grid-row: 1 / -1;
+}
+
+.diagline-through {
+  border-bottom: 1px solid black;
+  position: relative;
+  transform-origin: bottom left;
+  transform: skew(-45deg);
+}
+
+*/
+
+// indexes are determined from getWin
+// use below js to draw lines
+
+/*
+
+const gridCells = document.querySelectorAll('.grid-cell');
+
+lineCells.forEach((index) => {
+  const cell = gridCells[index - 1];
+  cell.classList.add('line-through');
+  cell.style.transform = `skew(-45deg)`;
+});
+
+
+*/
+
+
 
 function handleClick() {
 
   // check who's turn it is
   const currentClass = isPlayer_O_Turn ? circle : cross;
+
+  // check if pc or player
 
     // add figure in cell 
     if (currentClass === "X"){
@@ -135,7 +204,6 @@ function handleClick() {
 
         // if returns true, end game 
         if (checkWin(currentClass) === true){
-
           endGame(true,currentClass);
         }else if (isDraw() === true){
           endGame(false,currentClass);
@@ -151,7 +219,6 @@ function handleClick() {
 
         // if returns true, end game 
         if (checkWin(currentClass) === true){
-
           endGame(true,currentClass);
         }else if (isDraw() === true){
           endGame(false,currentClass);
@@ -204,6 +271,8 @@ function endGame(end, classtype) {
       winningMessageText.textContent = "You win";
       playerScore += 1;
       playerScoreDiv.innerHTML = playerScore
+
+      console.log(getWin(classtype), getWin(classtype)[0]);
     } else if (classtype === "X" && pc === "X"){
         winningMessageText.textContent = "PC wins";
         pcScore += 1;
@@ -225,12 +294,6 @@ function endGame(end, classtype) {
   }
   winningMessageElement.classList.remove('hidden');
 }
-
-/* ================================ Score ============================= */
-
-
-
-
 
 /* ================================ Reset Game ============================= */
 

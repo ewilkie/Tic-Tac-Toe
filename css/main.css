@@ -12,7 +12,7 @@ h1 {
   padding: 20px 0px;
   width: 100%;
   text-align: center;
-  background: linear-gradient(to top, #52007A, #D1B09E);
+  background: linear-gradient(to top, #D1B09E, #52007A, #D1B09E);
 }
 
 h2 {
