@@ -147,42 +147,7 @@ function getWin(currentClass) {
 // how to draw the lines
 // in css determine horizontal, vertical and top-to-bottom and bottom-to-top
 
-/*
 
-.hline-through {
-  border: 1px solid black;
-  grid-column: 1 / -1;
-}
-
-.vline-through {
-  border-left: 1px solid black;
-  grid-row: 1 / -1;
-}
-
-.diagline-through {
-  border-bottom: 1px solid black;
-  position: relative;
-  transform-origin: bottom left;
-  transform: skew(-45deg);
-}
-
-*/
-
-// indexes are determined from getWin
-// use below js to draw lines
-
-/*
-
-const gridCells = document.querySelectorAll('.grid-cell');
-
-lineCells.forEach((index) => {
-  const cell = gridCells[index - 1];
-  cell.classList.add('line-through');
-  cell.style.transform = `skew(-45deg)`;
-});
-
-
-*/
 
 
 
@@ -272,7 +237,16 @@ function endGame(end, classtype) {
       playerScore += 1;
       playerScoreDiv.innerHTML = playerScore
 
-      console.log(getWin(classtype), getWin(classtype)[0]);
+      
+
+      let linecells = getWin(classtype);
+      
+      console.log(getWin(classtype), linecells);
+      /*linecells.forEach((index) => {
+        const cell = cells[index - 1];
+        cell.classList.add('hline-through');
+      });*/
+
     } else if (classtype === "X" && pc === "X"){
         winningMessageText.textContent = "PC wins";
         pcScore += 1;
@@ -321,10 +295,6 @@ function resetGrid() {
     };  
   });
 
-  // reset score
-  playerScoreDiv.innerHTML = 0
-  pcScoreDiv.innerHTML = 0
-  tiesDiv = 0;
 }
 
 /* =========================== replay game =================================== */
@@ -348,6 +318,11 @@ function quitGame() {
   resetGrid()
   startDiv.classList.remove("hidden");
   mainDiv.classList.add("hidden");
+
+    // reset score
+    playerScoreDiv.innerHTML = 0
+    pcScoreDiv.innerHTML = 0
+    tiesDiv = 0;
 
 }
 

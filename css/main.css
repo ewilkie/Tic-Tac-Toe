@@ -282,4 +282,21 @@ h4 {
   padding:0;
 }
 
+/* winning game lines */
+.hline-through {
+  border: 1px solid black;
+  grid-column: 1 / -1;
+}
+
+.vline-through {
+  border-left: 1px solid black;
+  grid-row: 1 / -1;
+}
+
+.diagline-through {
+  border-bottom: 1px solid black;
+  position: relative;
+  transform-origin: bottom left;
+  transform: skew(-45deg);
+}
 
