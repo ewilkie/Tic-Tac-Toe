@@ -230,13 +230,42 @@ function endGame(end, classtype) {
       playerScoreDiv.innerHTML = playerScore
 
     // drawing lines
-     // let linecells = getWin(classtype);
+
+    const board = document.querySelector('.main-grid'); 
+
+
+      let winnerCells = getWin(classtype);
       
-      //console.log(getWin(classtype), linecells);
-      /*linecells.forEach((index) => {
-        const cell = cells[index - 1];
-        cell.classList.add('hline-through');
-      });*/
+      console.log(winnerCells);
+
+      const line = document.createElement('div');
+      line.classList.add('winning-line');
+      board.appendChild(line);
+    
+      const firstCell = cells[winnerCells[0]];
+      const lastCell = cells[winnerCells[winnerCells.length - 1]];
+    
+      const firstCellRect = firstCell.getBoundingClientRect();
+      const lastCellRect = lastCell.getBoundingClientRect();
+    
+      line.style.top = `${firstCellRect.top + firstCellRect.height / 2}px`;
+      line.style.left = `${firstCellRect.left + firstCellRect.width / 2}px`;
+    
+      if (firstCellRect.top === lastCellRect.top) {
+        line.style.width = `${lastCellRect.left - firstCellRect.left + lastCellRect.width}px`;
+        line.style.transform = 'translateY(-50%) rotate(0deg)';
+      } else if (firstCellRect.left === lastCellRect.left) {
+        line.style.height = `${lastCellRect.top - firstCellRect.top + lastCellRect.height}px`;
+        line.style.transform = 'translateX(-50%) rotate(90deg)';
+      }
+
+      /*
+      linecells.forEach((index) => {
+        const cell = cells[index];
+        console.log(cell);
+        //cell.classList.add('hline-through');
+        
+      }); */
 
     } else if (classtype === "X" && pc === "X"){
         winningMessageText.textContent = "PC wins";
