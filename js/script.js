@@ -231,6 +231,8 @@ function endGame(end, classtype) {
       playerScore += 1;
       playerScoreDiv.innerHTML = playerScore
 
+
+      /*
       // drawing lines
       const board = document.querySelector('.main-grid'); 
 
@@ -267,7 +269,7 @@ function endGame(end, classtype) {
         console.log(line.style);
       }
 
-      
+      */
 
       /*
       linecells.forEach((index) => {
