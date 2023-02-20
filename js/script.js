@@ -93,11 +93,9 @@ function startGame(event) {
     // return icons to original color
     crossSpan.forEach(c => {c.style.backgroundColor = "green"});
     circleSpan.style.border = "10px solid orange";
-
-
-    // put in a catch here to determine who goes first?? 
-    // if goFirs t
   }
+
+  // add hover function for grid
 }
 
 buttonStart.addEventListener('click', startGame);
@@ -147,10 +145,6 @@ function getWin(currentClass) {
 // how to draw the lines
 // in css determine horizontal, vertical and top-to-bottom and bottom-to-top
 
-
-
-
-
 function handleClick() {
 
   // check who's turn it is
@@ -197,9 +191,7 @@ function handleClick() {
     this.removeEventListener('click', handleClick);
 
     // remove hover styling when cell contains item
-    this.onmouseover = function() {
-      this.classList.remove('active');
-    };   
+    this.style.boxShadow = "initial";
 }
 
 cells.forEach(cell => {
@@ -237,11 +229,10 @@ function endGame(end, classtype) {
       playerScore += 1;
       playerScoreDiv.innerHTML = playerScore
 
+    // drawing lines
+     // let linecells = getWin(classtype);
       
-
-      let linecells = getWin(classtype);
-      
-      console.log(getWin(classtype), linecells);
+      //console.log(getWin(classtype), linecells);
       /*linecells.forEach((index) => {
         const cell = cells[index - 1];
         cell.classList.add('hline-through');
@@ -290,11 +281,16 @@ function resetGrid() {
     cell.addEventListener('click', handleClick);
 
     // add hover styling when cell contains item
-    this.onmouseover = function() {
-      this.classList.add('active');
+    cell.onmouseover = function() {
+      this.style.boxShadow = "0px 0px 10px 2px rgba(0,0,0, 0.75)";
     };  
-  });
 
+    // add hover styling when cell contains item
+    cell.onmouseleave = function() {
+      this.style.boxShadow = "initial";
+    };
+
+  });
 }
 
 /* =========================== replay game =================================== */
