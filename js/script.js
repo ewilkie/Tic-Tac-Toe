@@ -218,6 +218,7 @@ let tiesDiv = document.querySelector('.ties');
 
 function endGame(end, classtype) {
 
+  // get scores
   let playerScore = parseInt(playerScoreDiv.textContent);
   let pcScore = parseInt(pcScoreDiv.textContent);
   let ties = parseInt(tiesDiv.textContent);
@@ -226,13 +227,12 @@ function endGame(end, classtype) {
 
     if(classtype === "X" && player === "X") {
       winningMessageText.textContent = "You win";
+      // update score
       playerScore += 1;
       playerScoreDiv.innerHTML = playerScore
 
-    // drawing lines
-
-    const board = document.querySelector('.main-grid'); 
-
+      // drawing lines
+      const board = document.querySelector('.main-grid'); 
 
       let winnerCells = getWin(classtype);
       
@@ -241,23 +241,33 @@ function endGame(end, classtype) {
       const line = document.createElement('div');
       line.classList.add('winning-line');
       board.appendChild(line);
-    
+      
       const firstCell = cells[winnerCells[0]];
       const lastCell = cells[winnerCells[winnerCells.length - 1]];
     
+
+      
       const firstCellRect = firstCell.getBoundingClientRect();
       const lastCellRect = lastCell.getBoundingClientRect();
-    
+
+      console.log(firstCellRect);
+      console.log(lastCellRect);
+
       line.style.top = `${firstCellRect.top + firstCellRect.height / 2}px`;
       line.style.left = `${firstCellRect.left + firstCellRect.width / 2}px`;
     
+      // vertical line 
       if (firstCellRect.top === lastCellRect.top) {
-        line.style.width = `${lastCellRect.left - firstCellRect.left + lastCellRect.width}px`;
-        line.style.transform = 'translateY(-50%) rotate(0deg)';
+        //line.style.width = `${lastCellRect.left - firstCellRect.left + lastCellRect.width}px`;
+        line.style.transform = 'translateY(-50%) rotate(90deg)';
+        console.log(line.style);
       } else if (firstCellRect.left === lastCellRect.left) {
         line.style.height = `${lastCellRect.top - firstCellRect.top + lastCellRect.height}px`;
         line.style.transform = 'translateX(-50%) rotate(90deg)';
+        console.log(line.style);
       }
+
+      
 
       /*
       linecells.forEach((index) => {

@@ -306,6 +306,7 @@ h4 {
 }
 
 .winning-line {
-  width: 2px;
+  background-color: red;
+  z-index:1;
 }
 
