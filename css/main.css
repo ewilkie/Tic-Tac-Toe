@@ -177,7 +177,9 @@ h4 {
     height: 385px;
 
     margin: 20px 0px;
-    
+
+    position: relative;
+    z-index: 1;
 }
 
 .base-child {
@@ -307,6 +309,14 @@ h4 {
 
 .winning-line {
   background-color: red;
-  z-index:1;
+  width: 10px;
+  z-index: 900;
+  position: absolute;
+  /*
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+*/
 }
 
