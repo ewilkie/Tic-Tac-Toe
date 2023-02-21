@@ -231,6 +231,9 @@ function endGame(end, classtype) {
       playerScore += 1;
       playerScoreDiv.innerHTML = playerScore
 
+
+      // need to put this into a function
+    
       // drawing lines
       const board = document.querySelector('.main-grid'); 
 
@@ -241,9 +244,18 @@ function endGame(end, classtype) {
       const line = document.createElement('div');
       line.classList.add('winning-line');
       board.appendChild(line);
-      
-      
+        
       const firstCell = cells[winnerCells[0]];
+
+      // these variables need to be changed depending on the winnerCells
+      // need to figure out how to do that
+      line.style.top = `0px`;
+      line.style.left = `${firstCell.offsetWidth /2 }px`;
+      line.style.bottom = `0px`;
+
+
+
+    /* pretty sure this is all crap 
       const lastCell = cells[winnerCells[winnerCells.length - 1]];
     
       const firstCellRect = firstCell.getBoundingClientRect();
@@ -255,9 +267,6 @@ function endGame(end, classtype) {
       line.style.top = `${firstCellRect.top}px`;
       line.style.bottom = `${firstCellRect.bottom}px`;
 
-
-
-
       // get width of grid cell for off sett
 
 
@@ -268,13 +277,6 @@ function endGame(end, classtype) {
       //console.log(line.style.top);
       //console.log(line.style.bottom);
 
-
-      line.style.top = `0px`;
-      line.style.left = `${firstCell.offsetWidth /2}px`;
-      line.style.bottom = `0px`;
-
-    /*
-      
       // vertical line 
       if (firstCellRect.top === lastCellRect.top) {
         //line.style.width = `${lastCellRect.left - firstCellRect.left + lastCellRect.width}px`;
@@ -315,7 +317,7 @@ function endGame(end, classtype) {
     ties += 1;
     tiesDiv.innerHTML = ties
   }
-  //winningMessageElement.classList.remove('hidden');
+  winningMessageElement.classList.remove('hidden');
 }
 
 /* ================================ Reset Game ============================= */
