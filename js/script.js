@@ -322,6 +322,9 @@ function endGame(end, classtype) {
 
 /* ================================ Reset Game ============================= */
 
+
+
+
 function resetGrid() {
   // Remove classes
   cells.forEach(cell => {
@@ -351,6 +354,11 @@ function resetGrid() {
     };
 
   });
+
+  // remove winning line
+  let wl = document.querySelector('.winning-line'); 
+  wl.remove();
+
 }
 
 /* =========================== replay game =================================== */
