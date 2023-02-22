@@ -275,8 +275,7 @@ function drawWinningLine(symbol) {
   // add line div main grid in html
   const board = document.querySelector('.main-grid'); 
   const line = document.createElement('div');
-  line.classList.add('winning-line');
-  board.appendChild(line);
+
 
   // set background colour based on symbol
   if ( symbol === "X") {
@@ -290,9 +289,14 @@ function drawWinningLine(symbol) {
   const firstCell = cells[winnerCells[0]];
   const lastCell = cells[winnerCells[2]];
 
+  let fcRect = firstCell.getBoundingClientRect();
+  let lcRect = lastCell.getBoundingClientRect();
+
   // line type combinations
   hlineCombo = [[0, 1, 2],[3, 4, 5],[6, 7, 8]];
   vlineCombo = [[0, 3, 6],[1, 4, 7],[2, 5, 8]];
+
+  // might need seperate dlines so that rotation works properly
   dlineCombo = [[0, 4, 8],[2, 4, 6]];
 
   // check for line combinations
@@ -300,22 +304,27 @@ function drawWinningLine(symbol) {
   isVline = lineContain(vlineCombo,winnerCells);
   isDline = lineContain(dlineCombo,winnerCells);
   
-// this is not working
-// offsetHeight isn't the right way to go about it 
+  // need to figure out why there is an offset
+  // why line appears outside of grid
+  // width and height properties seem to work fine
   if(isHline) {
-    line.style.left = "0px";
-    line.style.right = "0px";
-    line.style.top = `${firstCell.offsetHeight/2}px`;
-    console.log(line);
+    console.log(firstCell);
+    line.style.top = `${fcRect.top + ((fcRect.top - fcRect.bottom) /2)}px`; //`${fcRect.top + fcRect.height / 2}px`;
+    line.style.left = fcRect.left; //`${fcRect.left}px`;
+    line.style.width = `${lcRect.right - fcRect.left}px`;
+    line.style.height = "10px";
+    console.log(fcRect);
 
   } else if (isVline){
   // these variables need to be changed depending on the winnerCells
   // need to figure out how to do that
-    line.style.top = "0px";
-    line.style.right = `${firstCell.offsetWidth/2}px`;
-    line.style.bottom = "0px";
+    line.style.top = `${fcRect.top}px`;
+    line.style.left = `${fcRect.left + fcRect.width / 2}px`; // Set the position to the center of the cells
+    line.style.height = `${lcRect.bottom - fcRect.top}px`;
+    line.style.width = "10px";
   
-    console.log(isVline);
+    console.log(fcRect);
+    console.log(lcRect);
   } else if (isDline){
     console.log(isDline);
   }
@@ -361,6 +370,9 @@ function drawWinningLine(symbol) {
         //cell.classList.add('hline-through');
         
       }); */
+
+      line.classList.add('winning-line');
+      board.appendChild(line);
 }
 
 
