@@ -226,36 +226,61 @@ function endGame(end, classtype) {
   if (end === true){
 
     if(classtype === "X" && player === "X") {
+      // drawing lines function
+      drawWinningLine(classtype);
       winningMessageText.textContent = "You win";
       // update score
       playerScore += 1;
       playerScoreDiv.innerHTML = playerScore
-
-
-      // need to put this into a function
+    } else if (classtype === "X" && pc === "X"){
+        // drawing lines function
+        drawWinningLine(classtype);
+        winningMessageText.textContent = "PC wins";
+        pcScore += 1;
+        pcScoreDiv.innerHTML = pcScore
+    } else if(classtype === "O" && player === "O") {
+      // drawing lines function
+        drawWinningLine(classtype);
+        winningMessageText.textContent = "You win";
+        playerScore += 1;
+        playerScoreDiv.innerHTML = playerScore
+    } else if (classtype === "O" && pc === "O"){
+        // drawing lines function
+        drawWinningLine(classtype);
+        winningMessageText.textContent = "PC wins";
+        pcScore += 1;
+        pcScoreDiv.innerHTML = pcScore
+    }
     
-      // drawing lines
-      const board = document.querySelector('.main-grid'); 
+  } else if (end === false){
+    winningMessageText.textContent = "Its a draw";
+    ties += 1;
+    tiesDiv.innerHTML = ties
+  }
+  winningMessageElement.classList.remove('hidden');
+}
 
-      let winnerCells = getWin(classtype);
+
+function drawWinningLine(symbol) {
+  let winnerCells = getWin(symbol);
       
-      console.log(winnerCells);
+  console.log(winnerCells);
 
-      const line = document.createElement('div');
-      line.classList.add('winning-line');
-      board.appendChild(line);
-        
-      const firstCell = cells[winnerCells[0]];
+  const board = document.querySelector('.main-grid'); 
 
-      // these variables need to be changed depending on the winnerCells
-      // need to figure out how to do that
-      line.style.top = `0px`;
-      line.style.left = `${firstCell.offsetWidth /2 }px`;
-      line.style.bottom = `0px`;
+  const line = document.createElement('div');
+  line.classList.add('winning-line');
+  board.appendChild(line);
+    
+  const firstCell = cells[winnerCells[0]];
 
-
-
-    /* pretty sure this is all crap 
+  // these variables need to be changed depending on the winnerCells
+  // need to figure out how to do that
+  line.style.top = `0px`;
+  line.style.left = `${firstCell.offsetWidth/2}px`;
+  line.style.bottom = `0px`;
+  console.log(firstCell.offsetWidth);
+      /* pretty sure this is all crap 
       const lastCell = cells[winnerCells[winnerCells.length - 1]];
     
       const firstCellRect = firstCell.getBoundingClientRect();
@@ -297,28 +322,9 @@ function endGame(end, classtype) {
         //cell.classList.add('hline-through');
         
       }); */
-
-    } else if (classtype === "X" && pc === "X"){
-        winningMessageText.textContent = "PC wins";
-        pcScore += 1;
-        pcScoreDiv.innerHTML = pcScore
-    } else if(classtype === "O" && player === "O") {
-      winningMessageText.textContent = "You win";
-      playerScore += 1;
-      playerScoreDiv.innerHTML = playerScore
-    } else if (classtype === "O" && pc === "O"){
-        winningMessageText.textContent = "PC wins";
-        pcScore += 1;
-        pcScoreDiv.innerHTML = pcScore
-    }
-    
-  } else if (end === false){
-    winningMessageText.textContent = "Its a draw";
-    ties += 1;
-    tiesDiv.innerHTML = ties
-  }
-  winningMessageElement.classList.remove('hidden');
 }
+
+
 
 /* ================================ Reset Game ============================= */
 
