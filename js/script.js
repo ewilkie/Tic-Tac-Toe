@@ -262,16 +262,22 @@ function endGame(end, classtype) {
 
 
 function drawWinningLine(symbol) {
-  let winnerCells = getWin(symbol);
-      
-  console.log(winnerCells);
 
+  // add line div main grid in html
   const board = document.querySelector('.main-grid'); 
-
   const line = document.createElement('div');
   line.classList.add('winning-line');
   board.appendChild(line);
-    
+
+  // set background colour based on symbol
+  if ( symbol === "X") {
+    line.style.backgroundColor = "green";
+  } else{
+    line.style.backgroundColor = "orange";
+  }
+
+  let winnerCells = getWin(symbol);    
+  console.log(winnerCells);  
   const firstCell = cells[winnerCells[0]];
 
   // these variables need to be changed depending on the winnerCells
@@ -279,6 +285,7 @@ function drawWinningLine(symbol) {
   line.style.top = `0px`;
   line.style.left = `${firstCell.offsetWidth/2}px`;
   line.style.bottom = `0px`;
+  
   console.log(firstCell.offsetWidth);
       /* pretty sure this is all crap 
       const lastCell = cells[winnerCells[winnerCells.length - 1]];
