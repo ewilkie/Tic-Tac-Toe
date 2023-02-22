@@ -276,7 +276,6 @@ function drawWinningLine(symbol) {
   const board = document.querySelector('.main-grid'); 
   const line = document.createElement('div');
 
-
   // set background colour based on symbol
   if ( symbol === "X") {
     line.style.backgroundColor = "green";
@@ -311,8 +310,8 @@ function drawWinningLine(symbol) {
   // width and height properties seem to work fine
   if(isHline) {
     console.log(firstCell);
-    line.style.top = `${(fcRect.height /3) }px`; //`${fcRect.top + fcRect.height / 2}px`;
-    line.style.left = fcRect.left; //`${fcRect.left}px`;
+    line.style.top = `${fcRect.top + (fcRect.height /2) }px`; //`${fcRect.top + fcRect.height / 2}px`;
+    line.style.left = `${fcRect.left}px`;
     line.style.width = `${lcRect.right - fcRect.left}px`;
     line.style.height = "10px";
     console.log(fcRect);
@@ -374,7 +373,7 @@ function drawWinningLine(symbol) {
       }); */
 
       line.classList.add('winning-line');
-      board.appendChild(line);
+      document.body.appendChild(line);
 }
 
 
