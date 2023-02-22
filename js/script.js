@@ -286,8 +286,10 @@ function drawWinningLine(symbol) {
 
   // get winning cells to determin where to draw line 
   let winnerCells = getWin(symbol);    
+  console.log(cells);
   const firstCell = cells[winnerCells[0]];
   const lastCell = cells[winnerCells[2]];
+  console.log(firstCell);
 
   let fcRect = firstCell.getBoundingClientRect();
   let lcRect = lastCell.getBoundingClientRect();
@@ -309,7 +311,7 @@ function drawWinningLine(symbol) {
   // width and height properties seem to work fine
   if(isHline) {
     console.log(firstCell);
-    line.style.top = `${fcRect.top + ((fcRect.top - fcRect.bottom) /2)}px`; //`${fcRect.top + fcRect.height / 2}px`;
+    line.style.top = `${(fcRect.height /3) }px`; //`${fcRect.top + fcRect.height / 2}px`;
     line.style.left = fcRect.left; //`${fcRect.left}px`;
     line.style.width = `${lcRect.right - fcRect.left}px`;
     line.style.height = "10px";
