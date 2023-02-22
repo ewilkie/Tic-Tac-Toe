@@ -260,6 +260,15 @@ function endGame(end, classtype) {
   winningMessageElement.classList.remove('hidden');
 }
 
+function lineContain(lineArrays,winningArray) {
+  const isContained = lineArrays.some(array => {
+    return array.length === winningArray.length && array.every((value, index) => {
+      return value === winningArray[index];
+    });
+  });
+  return isContained;
+}
+
 
 function drawWinningLine(symbol) {
 
@@ -276,17 +285,40 @@ function drawWinningLine(symbol) {
     line.style.backgroundColor = "orange";
   }
 
+  // get winning cells to determin where to draw line 
   let winnerCells = getWin(symbol);    
-  console.log(winnerCells);  
   const firstCell = cells[winnerCells[0]];
+  const lastCell = cells[winnerCells[2]];
 
+  // line type combinations
+  hlineCombo = [[0, 1, 2],[3, 4, 5],[6, 7, 8]];
+  vlineCombo = [[0, 3, 6],[1, 4, 7],[2, 5, 8]];
+  dlineCombo = [[0, 4, 8],[2, 4, 6]];
+
+  // check for line combinations
+  isHline = lineContain(hlineCombo,winnerCells);
+  isVline = lineContain(vlineCombo,winnerCells);
+  isDline = lineContain(dlineCombo,winnerCells);
+  
+// this is not working
+// offsetHeight isn't the right way to go about it 
+  if(isHline) {
+    line.style.left = "0px";
+    line.style.right = "0px";
+    line.style.top = `${firstCell.offsetHeight/2}px`;
+    console.log(line);
+
+  } else if (isVline){
   // these variables need to be changed depending on the winnerCells
   // need to figure out how to do that
-  line.style.top = `0px`;
-  line.style.left = `${firstCell.offsetWidth/2}px`;
-  line.style.bottom = `0px`;
+    line.style.top = "0px";
+    line.style.right = `${firstCell.offsetWidth/2}px`;
+    line.style.bottom = "0px";
   
-  console.log(firstCell.offsetWidth);
+    console.log(isVline);
+  } else if (isDline){
+    console.log(isDline);
+  }
       /* pretty sure this is all crap 
       const lastCell = cells[winnerCells[winnerCells.length - 1]];
     

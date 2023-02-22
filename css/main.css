@@ -286,10 +286,10 @@ h4 {
   padding:0;
 }
 
-/* winning game lines */
+/* winning game lines 
 .hline-through {
   /* border: 1px solid black;
-  grid-column: 1 / -1; */
+  grid-column: 1 / -1; 
   width: 2px;
   background-color: black;
   
@@ -306,9 +306,9 @@ h4 {
   transform-origin: bottom left;
   transform: skew(-45deg);
 }
+*/
 
 .winning-line {
-
   width: 10px;
   position: absolute;
   /*
