@@ -1,9 +1,8 @@
 /* TODO */
 
 // extend winning lines to edge of grid
-// winning lines don't align in center
 // define computer logic
-// draw a line through winning combination
+// winner scorediv shake? - have the box shale between line showing and winning box appearing
 // sounds
 // styling
 
@@ -261,9 +260,9 @@ function endGame(end, classtype) {
   }
 
   // show winning message
-  //setTimeout(() => {
+  setTimeout(() => {
     winningMessageElement.classList.remove('hidden');
-  //}, 1000);
+  }, 1000);
 
   // remove hover etc from remaining cells
   cells.forEach(cell => {
