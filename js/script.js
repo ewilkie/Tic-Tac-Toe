@@ -297,6 +297,8 @@ function drawWinningLine(symbol) {
     line.style.backgroundColor = "orange";
   }
 
+  line.zIndex = 10;
+
   // get winning cells to determin where to draw line 
   let winnerCells = getWin(symbol);    
 
@@ -323,16 +325,16 @@ function drawWinningLine(symbol) {
   // width and height properties seem to work fine
   if(isHline) {
     line.style.top = `${fcRect.top + (fcRect.height /2) }px`; //`${fcRect.top + fcRect.height / 2}px`;
-    line.style.left = `${fcRect.left}px`;
-    line.style.width = `${lcRect.right - fcRect.left}px`;
+    line.style.left = `${fcRect.left + (fcRect.width / 2)}px`;
+    line.style.width = `${lcRect.right - fcRect.left - (fcRect.width)}px`;
     line.style.height = "10px";
 
   } else if (isVline){
   // these variables need to be changed depending on the winnerCells
   // need to figure out how to do that
-    line.style.top = `${fcRect.top}px`;
+    line.style.top = `${fcRect.top + (fcRect.height /2) }px`;
     line.style.left = `${fcRect.left + fcRect.width / 2}px`; // Set the position to the center of the cells
-    line.style.height = `${lcRect.bottom - fcRect.top}px`;
+    line.style.height = `${lcRect.bottom - fcRect.top - fcRect.height}px`;
     line.style.width = "10px";
 
   } else if (isDline){
@@ -406,8 +408,9 @@ function resetGrid() {
 
   // remove winning line
   let wl = document.querySelector('.winning-line'); 
-  wl.remove();
-
+  if (wl !== null) {
+    wl.remove();
+  }
 }
 
 /* =========================== replay game =================================== */
