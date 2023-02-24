@@ -1,5 +1,4 @@
 /* TODO */
-
 // extend winning lines to edge of grid
 // define computer logic
 // winner scorediv shake? - have the box shale between line showing and winning box appearing
@@ -233,30 +232,36 @@ function endGame(end, classtype) {
       // update score
       playerScore += 1;
       playerScoreDiv.innerHTML = playerScore
+
+      shakeScore("player")
     } else if (classtype === "X" && pc === "X"){
         // drawing lines function
         drawWinningLine(classtype);
         winningMessageText.textContent = "PC wins";
         pcScore += 1;
         pcScoreDiv.innerHTML = pcScore
+        shakeScore("pc")
     } else if(classtype === "O" && player === "O") {
       // drawing lines function
         drawWinningLine(classtype);
         winningMessageText.textContent = "You win";
         playerScore += 1;
         playerScoreDiv.innerHTML = playerScore
+        shakeScore("player")
     } else if (classtype === "O" && pc === "O"){
         // drawing lines function
         drawWinningLine(classtype);
         winningMessageText.textContent = "PC wins";
         pcScore += 1;
         pcScoreDiv.innerHTML = pcScore
+        shakeScore("pc")
     }
     
   } else if (end === false){
     winningMessageText.textContent = "Its a draw";
     ties += 1;
     tiesDiv.innerHTML = ties
+    shakeScore("ties")
   }
 
   // show winning message
@@ -282,6 +287,21 @@ function lineContain(lineArrays,winningArray) {
     });
   });
   return isContained;
+}
+
+let boxPlayer = document.querySelector(".section-player");
+let boxPC = document.querySelector(".section-pc");
+let boxTies = document.querySelector(".section-ties");
+
+
+function shakeScore(type){
+  if (type === "player"){
+    boxPlayer.classList.add('shake');
+  } else if(type == "pc"){
+    boxPC.classList.add('shake');
+  } else if(type == "ties"){
+    boxTies.classList.add('shake');
+  }
 }
 
 
@@ -403,6 +423,12 @@ function resetGrid() {
   if (wl !== null) {
     wl.remove();
   }
+
+  // remove box shake
+    boxPlayer.classList.remove('shake');
+    boxPC.classList.remove('shake');
+    boxTies.classList.remove('shake');
+
 }
 
 /* =========================== replay game =================================== */
