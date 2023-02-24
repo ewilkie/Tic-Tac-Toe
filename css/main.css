@@ -8,11 +8,13 @@ html, body {
 
 h1 {
   font-size: 50px;
-  color: white;
+  color: black;
   padding: 20px 0px;
   width: 100%;
   text-align: center;
-  background: linear-gradient(to top, #D1B09E, #52007A, #D1B09E);
+  /*background: linear-gradient(to top, #D1B09E, #52007A, #D1B09E); */
+  background: linear-gradient(to left,  #52007A, #D1B09E, #52007A);
+  box-shadow: 0px 0px 10px 2px rgba(82,0,122, 0.75);
 }
 
 h2 {
