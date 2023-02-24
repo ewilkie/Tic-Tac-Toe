@@ -58,27 +58,45 @@ h4 {
 
 /* this is for the X */
 .cross {
+  position: relative;
   width: 100px;
+  height: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.cross-span {
+ /* display: block;
+  width: 105px;
+  height: 12px;*/ 
+  border-radius: 5px;
+  background-color: green; 
+  width: 105px;
+  position: absolute;
+  height: 12px;
+  width: 90%;
+  top: 45%;
+  transform-origin: center center;
 }
 
 .cross-span:first-child {
-  transform: rotate(45deg) translate(10px, 5px);
+  transform: rotate(45deg);
 }
   
 .cross-span:last-child {
   transform: rotate(-45deg);
 }
 
-.cross-span {
-  display: block;
-  width: 105px;
-  height: 12px;
-  border-radius: 5px;
-  background-color: green;
-}
 
 /* for the circle */
 .circle {
+
+  width: 100px;
+  height: 100px;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,7 +104,7 @@ h4 {
 
 .circle span {
   border: 10px solid orange;
-  border-radius: 60px;
+  border-radius: 65px;
   display: inline-block;
   height: 60px;
   width: 60px;
@@ -97,6 +115,7 @@ h4 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-bottom: 50px;
+
 }
 
 .description {
@@ -104,11 +123,12 @@ h4 {
 }
 
 
-/* otherwise not in center compared to O */
+/* otherwise not in center compared to O 
 .selection .cross {
   margin-right: 20px;
   margin-top: 22px;
 }
+*/
 
 /* this is so the whole cross is a pointer */
 .selection *:hover {
@@ -164,8 +184,8 @@ h4 {
 
 .main-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
 /*
     grid-template-areas:
     "cell1 cell2 cell3"
@@ -174,11 +194,12 @@ h4 {
 */
     border-collapse: collapse;
     width: 400px;
-    height: 385px;
+    height: 400px;
 
     margin: 20px 0px;
 
     position: relative;
+    border: 20x solid red;
 
 }
 

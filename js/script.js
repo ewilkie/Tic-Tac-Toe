@@ -1,6 +1,6 @@
 /* TODO */
-//diag;ine
-// grid is not entirely square
+
+// extend winning lines to edge of grid
 // winning lines don't align in center
 // define computer logic
 // draw a line through winning combination
@@ -325,55 +325,41 @@ function drawWinningLine(symbol) {
   isVline = lineContain(vlineCombo,winnerCells);
   isDline = lineContain(dlineCombo,winnerCells);
   
+  // since coords are give in viewport terms, need to subtract board coords 
   if(isHline) {
-
-    line.style.top = `${(fcRect.top + (fcRect.height /2)) - boardRect.top }px`; 
-    line.style.left = `${boardRect.left - fcRect.left + (fcRect.width / 2)}px`;
+    line.style.top = `${(fcRect.top + (fcRect.height /2)) - boardRect.top - 5}px`; 
+    line.style.left = `${fcRect.left + (fcRect.width / 2) - boardRect.left}px`;
     line.style.width = `${lcRect.right - fcRect.left - (fcRect.width)}px`;
-    line.style.height = "10px";
+    line.style.height = "15px";
 
   } else if (isVline){
     line.style.top = `${(fcRect.top + (fcRect.height /2)) - boardRect.top}px`;
-    line.style.left = `${(fcRect.left + (fcRect.width / 2)) - boardRect.left}px`; // Set the position to the center of the cells
+    line.style.left = `${(fcRect.left + (fcRect.width / 2)) - boardRect.left- 8}px`; // Set the position to the center of the cells
     line.style.height = `${lcRect.bottom - fcRect.top - fcRect.height}px`;
-    line.style.width = "10px";
+    line.style.width = "15px";
 
   } else if (isDline){
     // from top left to bottom right diag
     if(fcRect.x <= lcRect.x){
-      console.log("board");
-      console.log(boardRect);
-      console.log(fcRect);
       line.style.top = `${(fcRect.top + (fcRect.height /2)) - boardRect.top }px`;
-      line.style.left = `${(fcRect.left + (fcRect.width /2)) - boardRect.left}px`;
+      line.style.left = `${(fcRect.left + (fcRect.width /2)) - boardRect.left + 10}px`;
       line.style.width = `${lcRect.left - fcRect.left + lcRect.width}px`;
-      line.style.height = "10px";
+      line.style.height = "15px";
       line.style.transform = `rotate(45deg)`;
       line.style.transformOrigin = `top left`;
       
-      //`rotate(${firstCell.rowIndex === lastCell.rowIndex ? 45 : -45}deg)`; 
     } else if (fcRect.x >= lcRect.x){
-      line.style.top = `${fcRect.top + (fcRect.height /2) - boardRect.top }px`;
+      line.style.top = `${fcRect.top + (fcRect.height /2) - boardRect.top - 10}px`;
       line.style.left = `${fcRect.left + fcRect.width / 2 - boardRect.left }px`; // Set the position to the center of the cells
       line.style.height = `${fcRect.left - lcRect.left + fcRect.width}px`; 
-      line.style.width = "10px";
+      line.style.width = "15px";
       line.style.transform = `rotate(45deg)`;
       line.style.transformOrigin = `top left`;    
     }
   }
 
-  
-
-  //document.body.appendChild(line);
-  //line.style.zIndex = 1;
-  //line.style.top= "250px"; 
-  //line.style.left = "200px";
-
-
-
   board.appendChild(line);
-  
-  console.log(line);
+
 }
 
 
