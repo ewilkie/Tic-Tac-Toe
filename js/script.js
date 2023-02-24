@@ -345,32 +345,33 @@ function drawWinningLine(symbol) {
   isDline = lineContain(dlineCombo,winnerCells);
   
   // since coords are give in viewport terms, need to subtract board coords 
+  // add commented to set the position to the center of the cells
   if(isHline) {
     line.style.top = `${(fcRect.top + (fcRect.height /2)) - boardRect.top - 5}px`; 
-    line.style.left = `${fcRect.left + (fcRect.width / 2) - boardRect.left}px`;
-    line.style.width = `${lcRect.right - fcRect.left - (fcRect.width)}px`;
+    line.style.left = `${fcRect.left - boardRect.left}px`; // + (fcRect.width / 2)
+    line.style.width = `${lcRect.right - fcRect.left }px`; // - (fcRect.width)
     line.style.height = "15px";
 
   } else if (isVline){
-    line.style.top = `${(fcRect.top + (fcRect.height /2)) - boardRect.top}px`;
-    line.style.left = `${(fcRect.left + (fcRect.width / 2)) - boardRect.left- 8}px`; // Set the position to the center of the cells
-    line.style.height = `${lcRect.bottom - fcRect.top - fcRect.height}px`;
+    line.style.top = `${(fcRect.top ) - boardRect.top}px`; // + (fcRect.height /2)
+    line.style.left = `${(fcRect.left + (fcRect.width / 2)) - boardRect.left- 8}px`; 
+    line.style.height = `${lcRect.bottom - fcRect.top }px`; // - fcRect.height
     line.style.width = "15px";
 
   } else if (isDline){
     // from top left to bottom right diag
     if(fcRect.x <= lcRect.x){
-      line.style.top = `${(fcRect.top + (fcRect.height /2)) - boardRect.top }px`;
-      line.style.left = `${(fcRect.left + (fcRect.width /2)) - boardRect.left + 10}px`;
-      line.style.width = `${lcRect.left - fcRect.left + lcRect.width}px`;
+      line.style.top = `${(fcRect.top - boardRect.top)}px`; //+ (fcRect.height /2))
+      line.style.left = `${(fcRect.left - boardRect.left) + 10}px`; // + (fcRect.width /2)) 
+      line.style.width = `${lcRect.left - fcRect.left + (lcRect.width * 2) + 10}px`;
       line.style.height = "15px";
       line.style.transform = `rotate(45deg)`;
       line.style.transformOrigin = `top left`;
       
     } else if (fcRect.x >= lcRect.x){
-      line.style.top = `${fcRect.top + (fcRect.height /2) - boardRect.top - 10}px`;
-      line.style.left = `${fcRect.left + fcRect.width / 2 - boardRect.left }px`; // Set the position to the center of the cells
-      line.style.height = `${fcRect.left - lcRect.left + fcRect.width}px`; 
+      line.style.top = `${fcRect.top  - boardRect.top }px`; // + (fcRect.height /2)
+      line.style.left = `${fcRect.left  - boardRect.left + fcRect.width - 10 }px`; // + fcRect.width / 2
+      line.style.height = `${fcRect.left - lcRect.left + (fcRect.width * 2) + 10}px`; 
       line.style.width = "15px";
       line.style.transform = `rotate(45deg)`;
       line.style.transformOrigin = `top left`;    
