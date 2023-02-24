@@ -259,7 +259,18 @@ function endGame(end, classtype) {
     ties += 1;
     tiesDiv.innerHTML = ties
   }
+
+  // show winning message
   winningMessageElement.classList.remove('hidden');
+
+  // remove hover etc from remaining cells
+  cells.forEach(cell => {
+      // Remove the click event listener for cell
+      cell.removeEventListener('click', handleClick);
+
+      // remove hover styling when cell contains item
+      cell.style.boxShadow = "initial";
+  });
 }
 
 // returns true or false 
@@ -349,51 +360,11 @@ function drawWinningLine(symbol) {
       
     }
   }
-      /* pretty sure this is all crap 
-      const lastCell = cells[winnerCells[winnerCells.length - 1]];
-    
-      const firstCellRect = firstCell.getBoundingClientRect();
-      const lastCellRect = lastCell.getBoundingClientRect();
 
-      console.log(firstCell.offsetWidth);
-      //console.log(lastCellRect.bottom);
-
-      line.style.top = `${firstCellRect.top}px`;
-      line.style.bottom = `${firstCellRect.bottom}px`;
-
-      // get width of grid cell for off sett
+  line.classList.add('winning-line');
+  document.body.appendChild(line);
 
 
-      line.style.top = `${firstCellRect.top + firstCellRect.height / 2}px`;
-      line.style.bottom = `${firstCellRect.left + firstCellRect.width / 2}px`;
-
-
-      //console.log(line.style.top);
-      //console.log(line.style.bottom);
-
-      // vertical line 
-      if (firstCellRect.top === lastCellRect.top) {
-        //line.style.width = `${lastCellRect.left - firstCellRect.left + lastCellRect.width}px`;
-        line.style.transform = 'translateY(-50%) rotate(90deg)';
-        console.log(line.style);
-      } else if (firstCellRect.left === lastCellRect.left) {
-        line.style.height = `${lastCellRect.top - firstCellRect.top + lastCellRect.height}px`;
-        line.style.transform = 'translateX(-50%) rotate(90deg)';
-        console.log(line.style);
-      }
-
-      */
-
-      /*
-      linecells.forEach((index) => {
-        const cell = cells[index];
-        console.log(cell);
-        //cell.classList.add('hline-through');
-        
-      }); */
-
-      line.classList.add('winning-line');
-      document.body.appendChild(line);
 }
 
 
@@ -461,10 +432,10 @@ function quitGame() {
   startDiv.classList.remove("hidden");
   mainDiv.classList.add("hidden");
 
-    // reset score
-    playerScoreDiv.innerHTML = 0
-    pcScoreDiv.innerHTML = 0
-    tiesDiv = 0;
+  // reset score
+  playerScoreDiv.innerHTML = 0
+  pcScoreDiv.innerHTML = 0
+  tiesDiv = 0;
 
 }
 
