@@ -261,7 +261,9 @@ function endGame(end, classtype) {
   }
 
   // show winning message
-  winningMessageElement.classList.remove('hidden');
+  //setTimeout(() => {
+    winningMessageElement.classList.remove('hidden');
+  //}, 1000);
 
   // remove hover etc from remaining cells
   cells.forEach(cell => {
@@ -287,8 +289,8 @@ function lineContain(lineArrays,winningArray) {
 function drawWinningLine(symbol) {
 
   // add line div main grid in html
-  const board = document.querySelector('.main-grid'); 
-  const line = document.createElement('div');
+  let board = document.querySelector(".main-grid");
+  let line = document.createElement('div');
 
   // set background colour based on symbol
   if ( symbol === "X") {
@@ -297,7 +299,8 @@ function drawWinningLine(symbol) {
     line.style.backgroundColor = "orange";
   }
 
-  line.zIndex = 10;
+  // add default css styling
+  line.classList.add('winning-line');
 
   // get winning cells to determin where to draw line 
   let winnerCells = getWin(symbol);    
@@ -305,6 +308,8 @@ function drawWinningLine(symbol) {
   const firstCell = cells[winnerCells[0]];
   const lastCell = cells[winnerCells[2]];
 
+  // get coordinates for positioning - values are relative to viewport
+  let boardRect = board.getBoundingClientRect();
   let fcRect = firstCell.getBoundingClientRect();
   let lcRect = lastCell.getBoundingClientRect();
 
@@ -320,31 +325,27 @@ function drawWinningLine(symbol) {
   isVline = lineContain(vlineCombo,winnerCells);
   isDline = lineContain(dlineCombo,winnerCells);
   
-  // need to figure out why there is an offset
-  // why line appears outside of grid
-  // width and height properties seem to work fine
   if(isHline) {
-    line.style.top = `${fcRect.top + (fcRect.height /2) }px`; //`${fcRect.top + fcRect.height / 2}px`;
-    line.style.left = `${fcRect.left + (fcRect.width / 2)}px`;
+
+    line.style.top = `${(fcRect.top + (fcRect.height /2)) - boardRect.top }px`; 
+    line.style.left = `${boardRect.left - fcRect.left + (fcRect.width / 2)}px`;
     line.style.width = `${lcRect.right - fcRect.left - (fcRect.width)}px`;
     line.style.height = "10px";
 
   } else if (isVline){
-  // these variables need to be changed depending on the winnerCells
-  // need to figure out how to do that
-    line.style.top = `${fcRect.top + (fcRect.height /2) }px`;
-    line.style.left = `${fcRect.left + fcRect.width / 2}px`; // Set the position to the center of the cells
+    line.style.top = `${(fcRect.top + (fcRect.height /2)) - boardRect.top}px`;
+    line.style.left = `${(fcRect.left + (fcRect.width / 2)) - boardRect.left}px`; // Set the position to the center of the cells
     line.style.height = `${lcRect.bottom - fcRect.top - fcRect.height}px`;
     line.style.width = "10px";
 
   } else if (isDline){
     // from top left to bottom right diag
     if(fcRect.x <= lcRect.x){
-      console.log(isDline);
+      console.log("board");
+      console.log(boardRect);
       console.log(fcRect);
-      console.log(lcRect);
-      line.style.top = `${fcRect.top + (fcRect.height /2) }px`;
-      line.style.left = `${fcRect.left + (fcRect.width /2) }px`;
+      line.style.top = `${(fcRect.top + (fcRect.height /2)) - boardRect.top }px`;
+      line.style.left = `${(fcRect.left + (fcRect.width /2)) - boardRect.left}px`;
       line.style.width = `${lcRect.left - fcRect.left + lcRect.width}px`;
       line.style.height = "10px";
       line.style.transform = `rotate(45deg)`;
@@ -352,21 +353,27 @@ function drawWinningLine(symbol) {
       
       //`rotate(${firstCell.rowIndex === lastCell.rowIndex ? 45 : -45}deg)`; 
     } else if (fcRect.x >= lcRect.x){
-      console.log("dline top to bottom");
-      line.style.top = `${fcRect.top + (fcRect.height /2) }px`;
-      line.style.left = `${fcRect.left + fcRect.width / 2}px`; // Set the position to the center of the cells
-      line.style.height = `${fcRect.left - lcRect.left + fcRect.width}px`; //`${lcRect.bottom - fcRect.top}px`;
+      line.style.top = `${fcRect.top + (fcRect.height /2) - boardRect.top }px`;
+      line.style.left = `${fcRect.left + fcRect.width / 2 - boardRect.left }px`; // Set the position to the center of the cells
+      line.style.height = `${fcRect.left - lcRect.left + fcRect.width}px`; 
       line.style.width = "10px";
       line.style.transform = `rotate(45deg)`;
-      line.style.transformOrigin = `top left`;
-      
+      line.style.transformOrigin = `top left`;    
     }
   }
 
-  line.classList.add('winning-line');
-  document.body.appendChild(line);
+  
+
+  //document.body.appendChild(line);
+  //line.style.zIndex = 1;
+  //line.style.top= "250px"; 
+  //line.style.left = "200px";
 
 
+
+  board.appendChild(line);
+  
+  console.log(line);
 }
 
 
