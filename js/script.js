@@ -1,5 +1,7 @@
 /* TODO */
-
+//diag;ine
+// grid is not entirely square
+// winning lines don't align in center
 // define computer logic
 // draw a line through winning combination
 // sounds
@@ -260,6 +262,7 @@ function endGame(end, classtype) {
   winningMessageElement.classList.remove('hidden');
 }
 
+// returns true or false 
 function lineContain(lineArrays,winningArray) {
   const isContained = lineArrays.some(array => {
     return array.length === winningArray.length && array.every((value, index) => {
@@ -285,10 +288,9 @@ function drawWinningLine(symbol) {
 
   // get winning cells to determin where to draw line 
   let winnerCells = getWin(symbol);    
-  console.log(cells);
+
   const firstCell = cells[winnerCells[0]];
   const lastCell = cells[winnerCells[2]];
-  console.log(firstCell);
 
   let fcRect = firstCell.getBoundingClientRect();
   let lcRect = lastCell.getBoundingClientRect();
@@ -309,12 +311,10 @@ function drawWinningLine(symbol) {
   // why line appears outside of grid
   // width and height properties seem to work fine
   if(isHline) {
-    console.log(firstCell);
     line.style.top = `${fcRect.top + (fcRect.height /2) }px`; //`${fcRect.top + fcRect.height / 2}px`;
     line.style.left = `${fcRect.left}px`;
     line.style.width = `${lcRect.right - fcRect.left}px`;
     line.style.height = "10px";
-    console.log(fcRect);
 
   } else if (isVline){
   // these variables need to be changed depending on the winnerCells
@@ -323,11 +323,31 @@ function drawWinningLine(symbol) {
     line.style.left = `${fcRect.left + fcRect.width / 2}px`; // Set the position to the center of the cells
     line.style.height = `${lcRect.bottom - fcRect.top}px`;
     line.style.width = "10px";
-  
-    console.log(fcRect);
-    console.log(lcRect);
+
   } else if (isDline){
-    console.log(isDline);
+    // from top left to bottom right diag
+    if(fcRect.x <= lcRect.x){
+      console.log(isDline);
+      console.log(fcRect);
+      console.log(lcRect);
+      line.style.top = `${fcRect.top + (fcRect.height /2) }px`;
+      line.style.left = `${fcRect.left + (fcRect.width /2) }px`;
+      line.style.width = `${lcRect.left - fcRect.left + lcRect.width}px`;
+      line.style.height = "10px";
+      line.style.transform = `rotate(45deg)`;
+      line.style.transformOrigin = `top left`;
+      
+      //`rotate(${firstCell.rowIndex === lastCell.rowIndex ? 45 : -45}deg)`; 
+    } else if (fcRect.x >= lcRect.x){
+      console.log("dline top to bottom");
+      line.style.top = `${fcRect.top + (fcRect.height /2) }px`;
+      line.style.left = `${fcRect.left + fcRect.width / 2}px`; // Set the position to the center of the cells
+      line.style.height = `${fcRect.left - lcRect.left + fcRect.width}px`; //`${lcRect.bottom - fcRect.top}px`;
+      line.style.width = "10px";
+      line.style.transform = `rotate(45deg)`;
+      line.style.transformOrigin = `top left`;
+      
+    }
   }
       /* pretty sure this is all crap 
       const lastCell = cells[winnerCells[winnerCells.length - 1]];
