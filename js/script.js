@@ -65,6 +65,14 @@ function playerSelection(event, type) {
   
 }
 
+function switchFirst() {
+  if (goFirst  == 'pc') {
+    goFirst = 'player';
+  } else {
+    goFirst = 'pc';
+  }
+}
+
 crossSelect.addEventListener('click', function(event) {playerSelection(event, cross)});
 circleSelect.addEventListener('click', function(event) {playerSelection(event, circle)});
 
@@ -86,7 +94,7 @@ let playAs = document.querySelector('.playas');
 function startGame(event) {
 
   //prevent game start without a selection being made
-  if(player === undefined || pc === undefined){
+  if(goFirst === undefined ){
     event.preventDefault();
     playAs.innerHTML = "Please make a selection";
     playAs.style.color = "red";
@@ -107,10 +115,12 @@ function startGame(event) {
 buttonStart.addEventListener('click', startGame);
 
 
-
-
 // this function needs to control switching between whos turn it is an execute functionality based on this
 // also called in resetGrid function to start game again 
+
+
+// only allow player board interaction when it is players turn
+
 function playGame() {
 
   // first move - determine who goes first
@@ -122,10 +132,122 @@ function playGame() {
 
   // need to switch between symbols
   // subsequent moves
+  // no longer first move
 
-  // resetGrid function - replay
+
+  // after each move need to check for game end - done in individual functions
 
 }
+
+
+
+
+// determine empty cells
+// array of empty divs 
+function getEmpty() {
+
+  let emptyCells = [];
+
+  console.log(cells.length);
+  // use index in loop in case want to expand logic
+  for (let i = 0; i < cells.length; i++) {
+    // check if cell is empty
+    if (!cells[i].classList.contains(circle) || !cells[i].classList.contains(cross)) {
+      emptyCells.push(cells[i])     
+    }
+  }
+  return emptyCells;
+  
+}
+
+
+
+let playerTurn;
+let pcTurn;
+
+function cellClick(event) {
+  if(playerTurn) {
+    // add symbol
+    console.log("click");
+
+    let cellc = event.target;
+    if(player === "X"){
+      let c = cellc.querySelector(".cross");
+      c.classList.toggle('hidden')
+      c.classList.add(cross);
+    }else if(player === "O"){
+      let c = cellc.querySelector(".circle");
+      c.classList.toggle('hidden')
+      c.classList.add(circle);
+    }
+    playerTurn = false;
+  }
+}
+
+function playerMove(){
+
+  playerTurn = true;
+
+  // array of empty divs 
+  var emptyCells = getEmpty(cells);
+  console.log(emptyCells);
+
+  // add hover function for empty cells in grid
+  emptyCells.forEach(cell => {
+    // add hover styling 
+    cell.onmouseover = function() {
+      this.style.boxShadow = "0px 0px 10px 2px rgba(0,0,0, 0.75)";
+    };  
+    
+    // remove hover styling when cell contains item
+    cell.onmouseleave = function() {
+      this.style.boxShadow = "none";
+    };
+
+    // add click event 
+    cell.addEventListener('click', cellClick);
+  });
+
+  // check endgame
+
+
+  //pcmove -- need a delay here 
+  pcMove()
+}
+
+
+function pcMove() {
+
+  if (playerTurn === false) {
+    // disable player interaction
+    cells.forEach(cell => { cell.removeEventListener('click', cellClick)});
+
+    // array of empty divs 
+    var emptyCells = getEmpty()
+
+    // get a random number between 0 an 9 
+    random = Math.ceil(Math.random() * emptyCells.length) - 1;
+
+    // select a random div to add symbol
+    if(pc === "X"){
+      let c = emptyCells[random].querySelector(".cross");
+      c.classList.toggle('hidden')
+      c.classList.add(cross);
+    }else if(pc === "O"){
+      let c = emptyCells[random].querySelector(".circle");
+      c.classList.toggle('hidden')
+      c.classList.add(circle);
+    }
+    // player move
+    playerTurn = true;
+  }
+  // check end game
+
+
+  playerMove()
+
+};
+
 
 // need to change this function so that playGame takes over some of the functionality
 function handleClick() {
@@ -179,53 +301,6 @@ function handleClick() {
 
 
 
-function playerMove(){
-  // add hover function for grid
-  cells.forEach(cell => {
-    cell.addEventListener('click', handleClick);
-
-    // add hover styling 
-    cell.onmouseover = function() {
-      this.style.boxShadow = "0px 0px 10px 2px rgba(0,0,0, 0.75)";
-    };  
-    
-    // remove hover styling when cell contains item
-    cell.onmouseleave = function() {
-      this.style.boxShadow = "none";
-    };
-  });
-}
-
-
-function pcMove() {
-  // array of empty divs 
-  var emptyCells = [];
-
-  // use index in loop in case want to expand logic
-  for (let i = 0; i < cells.length; i++) {
-    // check if cell is empty
-    if (!cells[i].classList.contains(circle) || !cells[i].classList.contains(cross)) {
-      emptyCells.push(cells[i])     
-    }
-  }
-
-  // get a random number 
-  random = Math.ceil(Math.random() * emptyCells.length) - 1;
-
-  // select a random div to add symbol
-  if(pc === "X"){
-    let c = emptyCells[random].querySelector(".cross");
-    c.classList.toggle('hidden')
-    c.classList.add(cross);
-  }else if(pc === "O"){
-    let c = emptyCells[random].querySelector(".circle");
-    c.classList.toggle('hidden')
-    c.classList.add(circle);
-  }
-
-};
-
-
 
 /* =========================== Game Logic ================================= */
 
@@ -239,6 +314,11 @@ const WINNING_COMBINATIONS = [
 	[0, 4, 8],
 	[2, 4, 6]
 ]
+
+
+//-------------------------
+// Can I make checkWin and getWin into one function? or use getWin for both since these are very similar? 
+//------------------------
 
 
 // checks whether any of the winning combinations through 'some' contains 'every' current class list in cellElements. 
@@ -470,7 +550,7 @@ function resetGrid() {
     cell.classList.remove(circle);
     cell.classList.remove(cross);
 
-    playGame();
+    
     /* replace this with startGame function 
     // Add the click event listener back to all cells
     cell.addEventListener('click', handleClick);
@@ -507,6 +587,8 @@ let buttonReplay = document.querySelector('#replaybutton');
 function resetGame() {
   winningMessageElement.classList.add('hidden');
   resetGrid()
+  switchFirst()
+  playGame();
 }
 
 buttonReplay.addEventListener('click', resetGame);
