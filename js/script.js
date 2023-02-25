@@ -1,5 +1,4 @@
 /* TODO */
-// disable box shadow after second play
 // define computer logic
 // timing of line, box shake and winning pop-up
 // sounds
@@ -43,7 +42,7 @@ function playerSelection(event, type) {
     if (type === cross){
 
       crossSpan.forEach(c => {c.style.backgroundColor = "black"});
-      circleSpan.style.border = "10px solid orange";
+      circleSpan.style.border = "10px solid #5DB6AA";
 
       isPlayer_O_Turn = false;
       player_symbol.innerHTML = "Player - X";
@@ -57,7 +56,7 @@ function playerSelection(event, type) {
     } else {
 
       circleSpan.style.border = "10px solid black";
-      crossSpan.forEach(c => {c.style.backgroundColor = "green"});
+      crossSpan.forEach(c => {c.style.backgroundColor = "#B75D69"});
 
       isPlayer_O_Turn = true;
       player_symbol.innerHTML = "Player - O";
@@ -102,8 +101,8 @@ function startGame(event) {
     mainDiv.classList.remove("hidden");
 
     // return icons to original color
-    crossSpan.forEach(c => {c.style.backgroundColor = "green"});
-    circleSpan.style.border = "10px solid orange";
+    crossSpan.forEach(c => {c.style.backgroundColor = "#B75D69"});
+    circleSpan.style.border = "10px solid #5DB6AA";
   }
 
   // add hover function for grid
@@ -330,9 +329,9 @@ function drawWinningLine(symbol) {
 
   // set background colour based on symbol
   if ( symbol === "X") {
-    line.style.backgroundColor = "green";
+    line.style.backgroundColor = "#B75D69";
   } else{
-    line.style.backgroundColor = "orange";
+    line.style.backgroundColor = "#5DB6AA";
   }
 
   // add default css styling
