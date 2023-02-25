@@ -1,4 +1,5 @@
 /* TODO */
+// disable box shadow after second play
 // define computer logic
 // timing of line, box shake and winning pop-up
 // sounds
@@ -13,12 +14,6 @@
 let crossSelect = document.querySelector('.cross');
 let circleSelect = document.querySelector('.circle');
 
-let cross = "X";
-let circle = "O";
-
-let player;
-let pc;
-
 let crossSpan = document.querySelectorAll('.cross-span');
 let circleSpan = document.querySelector('.circle-span');
 
@@ -26,16 +21,21 @@ let isPlayer_O_Turn;
 let player_symbol = document.querySelector('.score-player-symbol');
 let pc_symbol = document.querySelector('.score-pc-symbol');
 
+let cross = "X";
+let circle = "O";
+
+let player;
+let pc;
 
 // to keep track of if computer goes first or someone else
-let goFirst;
+//let goFirst;
 
 // use pc_Symbole and if X, pc symbol is O, you go first 
 
-function firstMove(){
+/*function firstMove(){
   console.log("pc")
 }
-
+*/
 
 // need to refine this so its less hacky using a different method from changing style ?
 function playerSelection(event, type) {
@@ -109,6 +109,16 @@ function startGame(event) {
   // add hover function for grid
   cells.forEach(cell => {
     cell.addEventListener('click', handleClick);
+/*
+        // add hover styling when cell contains item
+        cell.onmouseover = function() {
+          this.style.boxShadow = "0px 0px 10px 2px rgba(0,0,0, 0.75)";
+        };  
+    
+        // add hover styling when cell contains item
+        cell.onmouseleave = function() {
+          this.style.boxShadow = "none";
+        };*/
   });
 }
 
@@ -208,6 +218,8 @@ function isDraw() {
 		return cell.classList.contains(cross) || cell.classList.contains(circle);
 	})
 }
+
+/* =========================== End game ================================= */
 
 let winningMessageElement = document.querySelector('.endgame');
 let winningMessageText = document.querySelector('#winningMessageText');
