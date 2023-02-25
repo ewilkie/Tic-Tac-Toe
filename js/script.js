@@ -109,16 +109,16 @@ function startGame(event) {
   // add hover function for grid
   cells.forEach(cell => {
     cell.addEventListener('click', handleClick);
-/*
-        // add hover styling when cell contains item
-        cell.onmouseover = function() {
-          this.style.boxShadow = "0px 0px 10px 2px rgba(0,0,0, 0.75)";
-        };  
+
+    // add hover styling when cell contains item
+    cell.onmouseover = function() {
+      this.style.boxShadow = "0px 0px 10px 2px rgba(0,0,0, 0.75)";
+    };  
     
-        // add hover styling when cell contains item
-        cell.onmouseleave = function() {
-          this.style.boxShadow = "none";
-        };*/
+    // add hover styling when cell contains item
+    cell.onmouseleave = function() {
+      this.style.boxShadow = "none";
+    };
   });
 }
 
@@ -209,7 +209,7 @@ function handleClick() {
     this.removeEventListener('click', handleClick);
 
     // remove hover styling when cell contains item
-    this.style.boxShadow = "none";
+    this.onmouseover = null;
 }
 
 // checks if every cell contains a player class, returns true if thats the case
@@ -286,7 +286,7 @@ function endGame(end, classtype) {
       cell.removeEventListener('click', handleClick);
 
       // remove hover styling when cell contains item
-      cell.style.boxShadow = "none";
+      cell.onmouseover = null;
       console.log("reset");
   });
 
