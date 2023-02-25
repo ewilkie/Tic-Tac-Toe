@@ -26,6 +26,8 @@ let circle = "O";
 let player;
 let pc;
 
+let gameStartVar;
+
 // to keep track of if computer goes first or someone else
 //let goFirst;
 
@@ -68,6 +70,7 @@ function playerSelection(event, type) {
       goFirst = "pc";
 
     }
+    gameStartVar = true;
   
 }
 
@@ -92,7 +95,7 @@ let playAs = document.querySelector('.playas');
 function startGame(event) {
 
   //prevent game start without a selection being made
-  if(isPlayer_O_Turn === undefined){
+  if(gameStartVar === false){
     event.preventDefault();
     playAs.innerHTML = "Please make a selection";
     playAs.style.color = "red";
@@ -466,9 +469,11 @@ let buttonQuit = document.querySelector('#quitbutton');
 
 function quitGame() {
   winningMessageElement.classList.add('hidden');
-  resetGrid()
-  startDiv.classList.remove("hidden");
   mainDiv.classList.add("hidden");
+  startDiv.classList.remove("hidden");
+
+  resetGrid()
+  gameStartVar = false;
 
   // reset score
   playerScoreDiv.innerHTML = 0
