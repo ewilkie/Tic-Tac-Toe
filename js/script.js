@@ -117,16 +117,21 @@ buttonStart.addEventListener('click', startGame);
 
 // this function needs to control switching between whos turn it is an execute functionality based on this
 // also called in resetGrid function to start game again 
-
-
+let hasClicked;
+let playerTurn;
+let pcTurn;
 // only allow player board interaction when it is players turn
 
 function playGame() {
-
+  console.log(goFirst);
   // first move - determine who goes first
-  if(goFirst == "player") {
+  if(goFirst === "player") {
+    hasClicked = false;
+    playerTurn = true;
     playerMove();
-  } else if( goFirst == "pc"){
+  } else if( goFirst === "pc"){
+    hasClicked = true;
+    playerTurn = false;
     pcMove();
   }
 
@@ -136,61 +141,33 @@ function playGame() {
 
 
   // after each move need to check for game end - done in individual functions
-
 }
-
-
-
-
-// determine empty cells
-// array of empty divs 
-function getEmpty() {
-
-  let emptyCells = [];
-
-  console.log(cells.length);
-  // use index in loop in case want to expand logic
-  for (let i = 0; i < cells.length; i++) {
-    // check if cell is empty
-    if (!cells[i].classList.contains(circle) || !cells[i].classList.contains(cross)) {
-      emptyCells.push(cells[i])     
-    }
-  }
-  return emptyCells;
-  
-}
-
-
-
-let playerTurn;
-let pcTurn;
 
 function cellClick(event) {
-  if(playerTurn) {
-    // add symbol
-    console.log("click");
+  let cellc = event.target;
 
-    let cellc = event.target;
-    if(player === "X"){
-      let c = cellc.querySelector(".cross");
-      c.classList.toggle('hidden')
-      c.classList.add(cross);
-    }else if(player === "O"){
-      let c = cellc.querySelector(".circle");
-      c.classList.toggle('hidden')
-      c.classList.add(circle);
-    }
-    playerTurn = false;
+  if(player === "X"){
+    let c = cellc.querySelector(".cross");
+    c.classList.toggle('hidden')
+    cellc.classList.add(cross);
+  }else if(player === "O"){
+    let c = cellc.querySelector(".circle");
+    c.classList.toggle('hidden')
+    cellc.classList.add(circle);
   }
+  hasClicked = true;
+  playerTurn = false;
+
+  console.log("playermoved");
+  console.log(cellc);
+  pcMove()
 }
 
 function playerMove(){
 
-  playerTurn = true;
 
   // array of empty divs 
-  var emptyCells = getEmpty(cells);
-  console.log(emptyCells);
+  var emptyCells = getEmpty();
 
   // add hover function for empty cells in grid
   emptyCells.forEach(cell => {
@@ -206,49 +183,122 @@ function playerMove(){
 
     // add click event 
     cell.addEventListener('click', cellClick);
+
   });
 
-  // check endgame
-
-
-  //pcmove -- need a delay here 
-  pcMove()
 }
 
 
 function pcMove() {
 
-  if (playerTurn === false) {
+    console.log("pcmove");
+  //if (playerTurn === false) {
     // disable player interaction
     cells.forEach(cell => { cell.removeEventListener('click', cellClick)});
 
     // array of empty divs 
-    var emptyCells = getEmpty()
+    var emptyCells = getEmpty();
 
-    // get a random number between 0 an 9 
+    // get a random number between 0 an 8 
     random = Math.ceil(Math.random() * emptyCells.length) - 1;
+    console.log(random);
+    pcCell = emptyCells[random];
+    console.log(pcCell);
 
     // select a random div to add symbol
     if(pc === "X"){
-      let c = emptyCells[random].querySelector(".cross");
-      c.classList.toggle('hidden')
-      c.classList.add(cross);
+      let c = pcCell.querySelector(".cross");
+      c.classList.toggle('hidden');
+      pcCell.classList.add(cross);
     }else if(pc === "O"){
-      let c = emptyCells[random].querySelector(".circle");
+      let c = pcCell.querySelector(".circle");
       c.classList.toggle('hidden')
-      c.classList.add(circle);
+      pcCell.classList.add(circle);
     }
     // player move
     playerTurn = true;
-  }
+    hasClicked = false;
+
+    playerMove()
+  //}
   // check end game
-
-
-  playerMove()
 
 };
 
 
+
+
+/* =========================== Game Logic ================================= */
+
+
+// determine empty cells
+// array of empty divs 
+function getEmpty() {
+
+  let emptyCells = [];
+
+  cells.forEach(cell => {
+    // check if cell is empty
+    if (cell.classList.contains(circle) || cell.classList.contains(cross)) {
+      console.log("not empty");
+    } else {
+      emptyCells.push(cell);     
+    }
+  });
+  console.log(emptyCells);
+  return emptyCells;
+  
+}
+
+
+const WINNING_COMBINATIONS = [
+	[0, 1, 2],
+	[3, 4, 5],
+	[6, 7, 8],
+	[0, 3, 6],
+	[1, 4, 7],
+	[2, 5, 8],
+	[0, 4, 8],
+	[2, 4, 6]
+]
+
+
+//-------------------------
+// Can I make checkWin and getWin into one function? or use getWin for both since these are very similar? 
+//------------------------
+
+
+// checks whether any of the winning combinations through 'some' contains 'every' current class list in cellElements. 
+// the every method and the some method need to return true for there to be a winner
+// So cell elements needs to be subsettable via index
+function checkWin(currentClass) {
+	return WINNING_COMBINATIONS.some(combination => {
+		return combination.every(index => {
+			return cellElements[index].classList.contains(currentClass);
+		})
+	})
+}
+
+// how to determine which winning combination to draw a line through it
+// returns an array [0,1,2] with the index of the cells
+function getWin(currentClass) {
+	return WINNING_COMBINATIONS.find(combination => {
+		return combination.every(index => {
+			 return cellElements[index].classList.contains(currentClass);
+		})
+	})
+}
+
+// checks if every cell contains a player class, returns true if thats the case
+function isDraw() {
+	return cellElements.every(cell => {
+		return cell.classList.contains(cross) || cell.classList.contains(circle);
+	})
+}
+
+
+
+/*
 // need to change this function so that playGame takes over some of the functionality
 function handleClick() {
 
@@ -298,56 +348,7 @@ function handleClick() {
     // remove hover styling when cell contains item
     this.onmouseover = null;
 }
-
-
-
-
-/* =========================== Game Logic ================================= */
-
-const WINNING_COMBINATIONS = [
-	[0, 1, 2],
-	[3, 4, 5],
-	[6, 7, 8],
-	[0, 3, 6],
-	[1, 4, 7],
-	[2, 5, 8],
-	[0, 4, 8],
-	[2, 4, 6]
-]
-
-
-//-------------------------
-// Can I make checkWin and getWin into one function? or use getWin for both since these are very similar? 
-//------------------------
-
-
-// checks whether any of the winning combinations through 'some' contains 'every' current class list in cellElements. 
-// the every method and the some method need to return true for there to be a winner
-// So cell elements needs to be subsettable via index
-function checkWin(currentClass) {
-	return WINNING_COMBINATIONS.some(combination => {
-		return combination.every(index => {
-			return cellElements[index].classList.contains(currentClass);
-		})
-	})
-}
-
-// how to determine which winning combination to draw a line through it
-// returns an array [0,1,2] with the index of the cells
-function getWin(currentClass) {
-	return WINNING_COMBINATIONS.find(combination => {
-		return combination.every(index => {
-			 return cellElements[index].classList.contains(currentClass);
-		})
-	})
-}
-
-// checks if every cell contains a player class, returns true if thats the case
-function isDraw() {
-	return cellElements.every(cell => {
-		return cell.classList.contains(cross) || cell.classList.contains(circle);
-	})
-}
+*/
 
 
 
