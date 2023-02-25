@@ -13,6 +13,7 @@
 let crossSelect = document.querySelector('.cross');
 let circleSelect = document.querySelector('.circle');
 
+// this is to change the colors
 let crossSpan = document.querySelectorAll('.cross-span');
 let circleSpan = document.querySelector('.circle-span');
 
@@ -29,14 +30,7 @@ let pc;
 let gameStartVar;
 
 // to keep track of if computer goes first or someone else
-//let goFirst;
-
-// use pc_Symbole and if X, pc symbol is O, you go first 
-
-/*function firstMove(){
-  console.log("pc")
-}
-*/
+let goFirst;
 
 // need to refine this so its less hacky using a different method from changing style ?
 function playerSelection(event, type) {
@@ -74,6 +68,14 @@ function playerSelection(event, type) {
   
 }
 
+function switchFirst() {
+  if (goFirst  == 'pc') {
+    goFirst = 'player';
+  } else {
+    goFirst = 'pc';
+  }
+}
+
 crossSelect.addEventListener('click', function(event) {playerSelection(event, cross)});
 circleSelect.addEventListener('click', function(event) {playerSelection(event, circle)});
 
@@ -95,11 +97,12 @@ let playAs = document.querySelector('.playas');
 function startGame(event) {
 
   //prevent game start without a selection being made
-  if(gameStartVar === false){
+  if(goFirst === undefined ){
     event.preventDefault();
     playAs.innerHTML = "Please make a selection";
     playAs.style.color = "red";
   }else {
+    // remove start and display game grid
     startDiv.classList.add("hidden");
     mainDiv.classList.remove("hidden");
 
@@ -108,26 +111,136 @@ function startGame(event) {
     circleSpan.style.border = "10px solid #5DB6AA";
   }
 
-  // add hover function for grid
-  cells.forEach(cell => {
-    cell.addEventListener('click', handleClick);
-
-    // add hover styling when cell contains item
-    cell.onmouseover = function() {
-      this.style.boxShadow = "0px 0px 10px 2px rgba(0,0,0, 0.75)";
-    };  
-    
-    // add hover styling when cell contains item
-    cell.onmouseleave = function() {
-      this.style.boxShadow = "none";
-    };
-  });
+  // initialise game play
+  playGame()
 }
 
 buttonStart.addEventListener('click', startGame);
 
 
+// this function needs to control switching between whos turn it is an execute functionality based on this
+// also called in resetGrid function to start game again 
+let hasClicked;
+let playerTurn;
+let pcTurn;
+let winnerGame = false;
+
+
+function playGame() {
+
+  // first move - determine who goes first
+  if(goFirst === "player") {
+    hasClicked = false;
+    playerTurn = true;
+    playerMove();
+  } else if( goFirst === "pc"){
+    hasClicked = true;
+    playerTurn = false;
+    pcMove();
+  }
+
+}
+
+function cellClick(event) {
+  let cellc = event.target;
+
+  if(player === "X"){
+    let c = cellc.querySelector(".cross");
+    c.classList.toggle('hidden')
+    cellc.classList.add(cross);
+    winner(player);
+  }else if(player === "O"){
+    let c = cellc.querySelector(".circle");
+    c.classList.toggle('hidden')
+    cellc.classList.add(circle);
+    winner(player);
+  }
+  hasClicked = true;
+  playerTurn = false;
+
+  if (winnerGame === false ) {
+    setTimeout(pcMove(), 700);
+  }
+}
+
+function playerMove(){
+
+  // array of empty divs 
+  var emptyCells = getEmpty();
+
+  // add hover function for empty cells in grid
+  emptyCells.forEach(cell => {
+    // add hover styling 
+    cell.onmouseover = function() {
+      this.style.boxShadow = "0px 0px 10px 2px rgba(0,0,0, 0.75)";
+    };  
+    
+    // remove hover styling when cell contains item
+    cell.onmouseleave = function() {
+      this.style.boxShadow = "none";
+    };
+
+    // add click event 
+    cell.addEventListener('click', cellClick);
+
+  });
+
+}
+
+
+function pcMove() {
+
+  // only allow player board interaction when it is players turn
+  cells.forEach(cell => { cell.removeEventListener('click', cellClick)});
+
+  // array of empty divs 
+  var emptyCells = getEmpty();
+
+  // get a random number between 0 an 8 
+  random = Math.ceil(Math.random() * emptyCells.length) - 1;
+  pcCell = emptyCells[random];
+
+  // select a random div to add symbol
+  if(pc === "X"){
+    let c = pcCell.querySelector(".cross");
+    c.classList.toggle('hidden');
+    pcCell.classList.add(cross);
+    winner(pc);
+  }else if(pc === "O"){
+    let c = pcCell.querySelector(".circle");
+    c.classList.toggle('hidden')
+    pcCell.classList.add(circle);
+    winner(pc);
+  }
+  // player move
+  playerTurn = true;
+  hasClicked = false;
+  
+  if (winnerGame === false){
+    playerMove()
+  }
+};
+
+
+
+
 /* =========================== Game Logic ================================= */
+
+
+// determine empty cells
+function getEmpty() {
+  let emptyCells = [];
+  cells.forEach(cell => {
+    // check if cell is empty
+    if (cell.classList.contains(circle) || cell.classList.contains(cross)) {
+      // do nothing
+    } else {
+      emptyCells.push(cell);     
+    }
+  });
+  return emptyCells;
+}
+
 
 const WINNING_COMBINATIONS = [
 	[0, 1, 2],
@@ -139,6 +252,11 @@ const WINNING_COMBINATIONS = [
 	[0, 4, 8],
 	[2, 4, 6]
 ]
+
+
+//-------------------------
+// Can I make checkWin and getWin into one function? or use getWin for both since these are very similar? 
+//------------------------
 
 
 // checks whether any of the winning combinations through 'some' contains 'every' current class list in cellElements. 
@@ -162,63 +280,22 @@ function getWin(currentClass) {
 	})
 }
 
-// how to draw the lines
-// in css determine horizontal, vertical and top-to-bottom and bottom-to-top
-
-function handleClick() {
-
-  // check who's turn it is
-  let currentClass = isPlayer_O_Turn ? circle : cross;
-
-  // check if pc or player
-
-    // add figure in cell 
-    if (currentClass === "X"){
-        // toggle cross visibility
-        let c = this.querySelector(".cross");
-        c.classList.toggle('hidden')
-
-        // to determine winning add class to each cell depending on type X or O
-        this.classList.add(cross)
-
-        // if returns true, end game 
-        if (checkWin(currentClass) === true){
-          endGame(true,currentClass);
-        }else if (isDraw() === true){
-          endGame(false,currentClass);
-        }
-        // swap classes
-        isPlayer_O_Turn = true
-    } else {
-        let c = this.querySelector(".circle");
-        c.classList.toggle('hidden')
-        
-        // add class list to determine winning
-        this.classList.add(circle)
-
-        // if returns true, end game 
-        if (checkWin(currentClass) === true){
-          endGame(true,currentClass);
-        }else if (isDraw() === true){
-          endGame(false,currentClass);
-        }
-
-        // swap classes
-        isPlayer_O_Turn = false
-    }
-
-    // Remove the click event listener for cell
-    this.removeEventListener('click', handleClick);
-
-    // remove hover styling when cell contains item
-    this.onmouseover = null;
-}
-
 // checks if every cell contains a player class, returns true if thats the case
 function isDraw() {
 	return cellElements.every(cell => {
 		return cell.classList.contains(cross) || cell.classList.contains(circle);
 	})
+}
+
+
+function winner(currentClass) {
+  if (checkWin(currentClass) === true){
+    endGame(true,currentClass);
+    winnerGame = true;
+  }else if (isDraw() === true){
+    endGame(false,currentClass);
+    winnerGame = true;
+  }
 }
 
 /* =========================== End game ================================= */
@@ -250,7 +327,6 @@ function endGame(end, classtype) {
       // update score
       playerScore += 1;
       playerScoreDiv.innerHTML = playerScore
-
       shakeScore("player")
     } else if (classtype === "X" && pc === "X"){
         // drawing lines function
@@ -282,46 +358,12 @@ function endGame(end, classtype) {
     shakeScore("ties");
   }
 
-  // remove hover etc from remaining cells
-  cells.forEach(cell => {
-      // Remove the click event listener for cell
-      cell.removeEventListener('click', handleClick);
-
-      // remove hover styling when cell contains item
-      cell.onmouseover = null;
-      console.log("reset");
-  });
-
   // show winning message
   setTimeout(() => {
     winningMessageElement.classList.remove('hidden');
   }, 1000);
 }
 
-// returns true or false 
-function lineContain(lineArrays,winningArray) {
-  const isContained = lineArrays.some(array => {
-    return array.length === winningArray.length && array.every((value, index) => {
-      return value === winningArray[index];
-    });
-  });
-  return isContained;
-}
-
-let boxPlayer = document.querySelector(".section-player");
-let boxPC = document.querySelector(".section-pc");
-let boxTies = document.querySelector(".section-ties");
-
-
-function shakeScore(type){
-  if (type === "player"){
-    boxPlayer.classList.add('shake');
-  } else if(type == "pc"){
-    boxPC.classList.add('shake');
-  } else if(type == "ties"){
-    boxTies.classList.add('shake');
-  }
-}
 
 
 function drawWinningLine(symbol) {
@@ -401,12 +443,35 @@ function drawWinningLine(symbol) {
 
 }
 
+// returns true or false - to determine what line to draw
+function lineContain(lineArrays,winningArray) {
+  const isContained = lineArrays.some(array => {
+    return array.length === winningArray.length && array.every((value, index) => {
+      return value === winningArray[index];
+    });
+  });
+  return isContained;
+}
+
+
+// make the scoreboard box shake 
+let boxPlayer = document.querySelector(".section-player");
+let boxPC = document.querySelector(".section-pc");
+let boxTies = document.querySelector(".section-ties");
+
+
+function shakeScore(type){
+  if (type === "player"){
+    boxPlayer.classList.add('shake');
+  } else if(type == "pc"){
+    boxPC.classList.add('shake');
+  } else if(type == "ties"){
+    boxTies.classList.add('shake');
+  }
+}
 
 
 /* ================================ Reset Game ============================= */
-
-
-
 
 function resetGrid() {
   // Remove classes
@@ -423,20 +488,10 @@ function resetGrid() {
     cell.classList.remove(circle);
     cell.classList.remove(cross);
 
-    // Add the click event listener back to all cells
-    cell.addEventListener('click', handleClick);
-
-    // add hover styling when cell contains item
-    cell.onmouseover = function() {
-      this.style.boxShadow = "0px 0px 10px 2px rgba(0,0,0, 0.75)";
-    };  
-
-    // add hover styling when cell contains item
-    cell.onmouseleave = function() {
-      this.style.boxShadow = "none";
-    };
-
   });
+
+  winningMessageElement.classList.add('hidden');
+  winnerGame = false;
 
   // remove winning line
   let wl = document.querySelector('.winning-line'); 
@@ -456,8 +511,9 @@ function resetGrid() {
 let buttonReplay = document.querySelector('#replaybutton');
 
 function resetGame() {
-  winningMessageElement.classList.add('hidden');
   resetGrid()
+  switchFirst()
+  playGame();
 }
 
 buttonReplay.addEventListener('click', resetGame);
@@ -468,7 +524,8 @@ buttonReplay.addEventListener('click', resetGame);
 let buttonQuit = document.querySelector('#quitbutton');
 
 function quitGame() {
-  winningMessageElement.classList.add('hidden');
+  resetGrid()
+  startDiv.classList.remove("hidden");
   mainDiv.classList.add("hidden");
   startDiv.classList.remove("hidden");
 
