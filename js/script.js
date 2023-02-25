@@ -278,8 +278,8 @@ function endGame(end, classtype) {
   } else if (end === false){
     winningMessageText.textContent = "It's a draw";
     ties += 1;
-    tiesDiv.innerHTML = ties
-    shakeScore("ties")
+    tiesDiv.innerHTML = ties;
+    shakeScore("ties");
   }
 
   // remove hover etc from remaining cells
