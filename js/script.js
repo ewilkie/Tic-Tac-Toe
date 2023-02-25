@@ -1,5 +1,4 @@
 /* TODO */
-// disable box shadow after second play
 // define computer logic
 // timing of line, box shake and winning pop-up
 // sounds
@@ -14,6 +13,7 @@
 let crossSelect = document.querySelector('.cross');
 let circleSelect = document.querySelector('.circle');
 
+// this is to change the colors
 let crossSpan = document.querySelectorAll('.cross-span');
 let circleSpan = document.querySelector('.circle-span');
 
@@ -28,14 +28,7 @@ let player;
 let pc;
 
 // to keep track of if computer goes first or someone else
-//let goFirst;
-
-// use pc_Symbole and if X, pc symbol is O, you go first 
-
-/*function firstMove(){
-  console.log("pc")
-}
-*/
+let goFirst;
 
 // need to refine this so its less hacky using a different method from changing style ?
 function playerSelection(event, type) {
@@ -93,11 +86,12 @@ let playAs = document.querySelector('.playas');
 function startGame(event) {
 
   //prevent game start without a selection being made
-  if(isPlayer_O_Turn === undefined){
+  if(player === undefined || pc === undefined){
     event.preventDefault();
     playAs.innerHTML = "Please make a selection";
     playAs.style.color = "red";
   }else {
+    // remove start and display game grid
     startDiv.classList.add("hidden");
     mainDiv.classList.remove("hidden");
 
@@ -106,63 +100,34 @@ function startGame(event) {
     circleSpan.style.border = "10px solid orange";
   }
 
-  // add hover function for grid
-  cells.forEach(cell => {
-    cell.addEventListener('click', handleClick);
-
-    // add hover styling when cell contains item
-    cell.onmouseover = function() {
-      this.style.boxShadow = "0px 0px 10px 2px rgba(0,0,0, 0.75)";
-    };  
-    
-    // add hover styling when cell contains item
-    cell.onmouseleave = function() {
-      this.style.boxShadow = "none";
-    };
-  });
+  // initialise game play
+  playGame()
 }
 
 buttonStart.addEventListener('click', startGame);
 
 
-/* =========================== Game Logic ================================= */
-
-const WINNING_COMBINATIONS = [
-	[0, 1, 2],
-	[3, 4, 5],
-	[6, 7, 8],
-	[0, 3, 6],
-	[1, 4, 7],
-	[2, 5, 8],
-	[0, 4, 8],
-	[2, 4, 6]
-]
 
 
-// checks whether any of the winning combinations through 'some' contains 'every' current class list in cellElements. 
-// the every method and the some method need to return true for there to be a winner
-// So cell elements needs to be subsettable via index
-function checkWin(currentClass) {
-	return WINNING_COMBINATIONS.some(combination => {
-		return combination.every(index => {
-			return cellElements[index].classList.contains(currentClass);
-		})
-	})
+// this function needs to control switching between whos turn it is an execute functionality based on this
+// also called in resetGrid function to start game again 
+function playGame() {
+
+  // first move - determine who goes first
+  if(goFirst == "player") {
+    playerMove();
+  } else if( goFirst == "pc"){
+    pcMove();
+  }
+
+  // need to switch between symbols
+  // subsequent moves
+
+  // resetGrid function - replay
+
 }
 
-// how to determine which winning combination to draw a line through it
-// returns an array [0,1,2] with the index of the cells
-function getWin(currentClass) {
-	return WINNING_COMBINATIONS.find(combination => {
-		return combination.every(index => {
-			 return cellElements[index].classList.contains(currentClass);
-		})
-	})
-}
-
-// how to draw the lines
-// in css determine horizontal, vertical and top-to-bottom and bottom-to-top
-
+// need to change this function so that playGame takes over some of the functionality
 function handleClick() {
 
   // check who's turn it is
@@ -212,12 +177,99 @@ function handleClick() {
     this.onmouseover = null;
 }
 
+
+
+function playerMove(){
+  // add hover function for grid
+  cells.forEach(cell => {
+    cell.addEventListener('click', handleClick);
+
+    // add hover styling 
+    cell.onmouseover = function() {
+      this.style.boxShadow = "0px 0px 10px 2px rgba(0,0,0, 0.75)";
+    };  
+    
+    // remove hover styling when cell contains item
+    cell.onmouseleave = function() {
+      this.style.boxShadow = "none";
+    };
+  });
+}
+
+
+function pcMove() {
+  // array of empty divs 
+  var emptyCells = [];
+
+  // use index in loop in case want to expand logic
+  for (let i = 0; i < cells.length; i++) {
+    // check if cell is empty
+    if (!cells[i].classList.contains(circle) || !cells[i].classList.contains(cross)) {
+      emptyCells.push(cells[i])     
+    }
+  }
+
+  // get a random number 
+  random = Math.ceil(Math.random() * emptyCells.length) - 1;
+
+  // select a random div to add symbol
+  if(pc === "X"){
+    let c = emptyCells[random].querySelector(".cross");
+    c.classList.toggle('hidden')
+    c.classList.add(cross);
+  }else if(pc === "O"){
+    let c = emptyCells[random].querySelector(".circle");
+    c.classList.toggle('hidden')
+    c.classList.add(circle);
+  }
+
+};
+
+
+
+/* =========================== Game Logic ================================= */
+
+const WINNING_COMBINATIONS = [
+	[0, 1, 2],
+	[3, 4, 5],
+	[6, 7, 8],
+	[0, 3, 6],
+	[1, 4, 7],
+	[2, 5, 8],
+	[0, 4, 8],
+	[2, 4, 6]
+]
+
+
+// checks whether any of the winning combinations through 'some' contains 'every' current class list in cellElements. 
+// the every method and the some method need to return true for there to be a winner
+// So cell elements needs to be subsettable via index
+function checkWin(currentClass) {
+	return WINNING_COMBINATIONS.some(combination => {
+		return combination.every(index => {
+			return cellElements[index].classList.contains(currentClass);
+		})
+	})
+}
+
+// how to determine which winning combination to draw a line through it
+// returns an array [0,1,2] with the index of the cells
+function getWin(currentClass) {
+	return WINNING_COMBINATIONS.find(combination => {
+		return combination.every(index => {
+			 return cellElements[index].classList.contains(currentClass);
+		})
+	})
+}
+
 // checks if every cell contains a player class, returns true if thats the case
 function isDraw() {
 	return cellElements.every(cell => {
 		return cell.classList.contains(cross) || cell.classList.contains(circle);
 	})
 }
+
+
 
 /* =========================== End game ================================= */
 
@@ -248,7 +300,6 @@ function endGame(end, classtype) {
       // update score
       playerScore += 1;
       playerScoreDiv.innerHTML = playerScore
-
       shakeScore("player")
     } else if (classtype === "X" && pc === "X"){
         // drawing lines function
@@ -285,9 +336,8 @@ function endGame(end, classtype) {
       // Remove the click event listener for cell
       cell.removeEventListener('click', handleClick);
 
-      // remove hover styling when cell contains item
+      // remove hover styling 
       cell.onmouseover = null;
-      console.log("reset");
   });
 
   // show winning message
@@ -296,30 +346,6 @@ function endGame(end, classtype) {
   }, 1000);
 }
 
-// returns true or false 
-function lineContain(lineArrays,winningArray) {
-  const isContained = lineArrays.some(array => {
-    return array.length === winningArray.length && array.every((value, index) => {
-      return value === winningArray[index];
-    });
-  });
-  return isContained;
-}
-
-let boxPlayer = document.querySelector(".section-player");
-let boxPC = document.querySelector(".section-pc");
-let boxTies = document.querySelector(".section-ties");
-
-
-function shakeScore(type){
-  if (type === "player"){
-    boxPlayer.classList.add('shake');
-  } else if(type == "pc"){
-    boxPC.classList.add('shake');
-  } else if(type == "ties"){
-    boxTies.classList.add('shake');
-  }
-}
 
 
 function drawWinningLine(symbol) {
@@ -399,12 +425,35 @@ function drawWinningLine(symbol) {
 
 }
 
+// returns true or false - to determine what line to draw
+function lineContain(lineArrays,winningArray) {
+  const isContained = lineArrays.some(array => {
+    return array.length === winningArray.length && array.every((value, index) => {
+      return value === winningArray[index];
+    });
+  });
+  return isContained;
+}
+
+
+// make the scoreboard box shake 
+let boxPlayer = document.querySelector(".section-player");
+let boxPC = document.querySelector(".section-pc");
+let boxTies = document.querySelector(".section-ties");
+
+
+function shakeScore(type){
+  if (type === "player"){
+    boxPlayer.classList.add('shake');
+  } else if(type == "pc"){
+    boxPC.classList.add('shake');
+  } else if(type == "ties"){
+    boxTies.classList.add('shake');
+  }
+}
 
 
 /* ================================ Reset Game ============================= */
-
-
-
 
 function resetGrid() {
   // Remove classes
@@ -421,6 +470,8 @@ function resetGrid() {
     cell.classList.remove(circle);
     cell.classList.remove(cross);
 
+    playGame();
+    /* replace this with startGame function 
     // Add the click event listener back to all cells
     cell.addEventListener('click', handleClick);
 
@@ -432,7 +483,7 @@ function resetGrid() {
     // add hover styling when cell contains item
     cell.onmouseleave = function() {
       this.style.boxShadow = "none";
-    };
+    }; */
 
   });
 
