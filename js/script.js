@@ -45,8 +45,8 @@ function playerSelection(event, type) {
       circleSpan.style.border = "10px solid #5DB6AA";
 
       isPlayer_O_Turn = false;
-      player_symbol.innerHTML = "Player - X";
-      pc_symbol.innerHTML = " PC - O";
+      player_symbol.innerHTML = "Player 1 - X";
+      pc_symbol.innerHTML = " Player 2 - O";
 
       player = "X";
       pc = "O";
@@ -59,8 +59,8 @@ function playerSelection(event, type) {
       crossSpan.forEach(c => {c.style.backgroundColor = "#B75D69"});
 
       isPlayer_O_Turn = true;
-      player_symbol.innerHTML = "Player - O";
-      pc_symbol.innerHTML = "PC - X";
+      player_symbol.innerHTML = "Player 1 - O";
+      pc_symbol.innerHTML = "Player 2 - X";
 
       player = "O";
       pc = "X";
@@ -273,7 +273,7 @@ function endGame(end, classtype) {
     }
     
   } else if (end === false){
-    winningMessageText.textContent = "Its a draw";
+    winningMessageText.textContent = "It's a draw";
     ties += 1;
     tiesDiv.innerHTML = ties
     shakeScore("ties")
