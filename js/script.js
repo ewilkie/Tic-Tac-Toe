@@ -1,7 +1,6 @@
 /* TODO */
-// extend winning lines to edge of grid
 // define computer logic
-// winner scorediv shake? - have the box shale between line showing and winning box appearing
+// timing of line, box shake and winning pop-up
 // sounds
 // styling
 
@@ -31,7 +30,9 @@ let pc_symbol = document.querySelector('.score-pc-symbol');
 // to keep track of if computer goes first or someone else
 let goFirst;
 
-function pcMove(){
+// use pc_Symbole and if X, pc symbol is O, you go first 
+
+function firstMove(){
   console.log("pc")
 }
 
@@ -80,12 +81,22 @@ let buttonStart = document.querySelector('#startbutton');
 let startDiv = document.querySelector('.game-start');
 let mainDiv = document.querySelector('.main-game');
 
+/* Functionality for when specific square is clicked */
+let cells = document.querySelectorAll('.base-child');
+
+// need array for winning combinations check based on index
+let cellElements = Array.from(cells)
+
+// replace text
+let playAs = document.querySelector('.playas');
 
 function startGame(event) {
 
   //prevent game start without a selection being made
   if(isPlayer_O_Turn === undefined){
     event.preventDefault();
+    playAs.innerHTML = "Please make a selection";
+    playAs.style.color = "red";
   }else {
     startDiv.classList.add("hidden");
     mainDiv.classList.remove("hidden");
@@ -96,9 +107,13 @@ function startGame(event) {
   }
 
   // add hover function for grid
+  cells.forEach(cell => {
+    cell.addEventListener('click', handleClick);
+  });
 }
 
 buttonStart.addEventListener('click', startGame);
+
 
 /* =========================== Game Logic ================================= */
 
@@ -112,13 +127,6 @@ const WINNING_COMBINATIONS = [
 	[0, 4, 8],
 	[2, 4, 6]
 ]
-
-
-/* Functionality for when specific square is clicked */
-let cells = document.querySelectorAll('.base-child');
-
-// need array for winning combinations check based on index
-let cellElements = Array.from(cells)
 
 
 // checks whether any of the winning combinations through 'some' contains 'every' current class list in cellElements. 
@@ -148,7 +156,7 @@ function getWin(currentClass) {
 function handleClick() {
 
   // check who's turn it is
-  const currentClass = isPlayer_O_Turn ? circle : cross;
+  let currentClass = isPlayer_O_Turn ? circle : cross;
 
   // check if pc or player
 
@@ -191,12 +199,8 @@ function handleClick() {
     this.removeEventListener('click', handleClick);
 
     // remove hover styling when cell contains item
-    this.style.boxShadow = "initial";
+    this.style.boxShadow = "none";
 }
-
-cells.forEach(cell => {
-  cell.addEventListener('click', handleClick);
-});
 
 // checks if every cell contains a player class, returns true if thats the case
 function isDraw() {
@@ -264,19 +268,20 @@ function endGame(end, classtype) {
     shakeScore("ties")
   }
 
-  // show winning message
-  setTimeout(() => {
-    winningMessageElement.classList.remove('hidden');
-  }, 1000);
-
   // remove hover etc from remaining cells
   cells.forEach(cell => {
       // Remove the click event listener for cell
       cell.removeEventListener('click', handleClick);
 
       // remove hover styling when cell contains item
-      cell.style.boxShadow = "initial";
+      cell.style.boxShadow = "none";
+      console.log("reset");
   });
+
+  // show winning message
+  setTimeout(() => {
+    winningMessageElement.classList.remove('hidden');
+  }, 1000);
 }
 
 // returns true or false 
@@ -414,7 +419,7 @@ function resetGrid() {
 
     // add hover styling when cell contains item
     cell.onmouseleave = function() {
-      this.style.boxShadow = "initial";
+      this.style.boxShadow = "none";
     };
 
   });
@@ -426,9 +431,9 @@ function resetGrid() {
   }
 
   // remove box shake
-    boxPlayer.classList.remove('shake');
-    boxPC.classList.remove('shake');
-    boxTies.classList.remove('shake');
+  boxPlayer.classList.remove('shake');
+  boxPC.classList.remove('shake');
+  boxTies.classList.remove('shake');
 
 }
 
@@ -459,6 +464,8 @@ function quitGame() {
   pcScoreDiv.innerHTML = 0
   tiesDiv = 0;
 
+  playAs.innerHTML = "Play as:";
+  playAs.style.color = "black";
 }
 
 buttonQuit.addEventListener('click', quitGame);
