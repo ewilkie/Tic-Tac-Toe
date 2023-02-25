@@ -121,10 +121,10 @@ let hasClicked;
 let playerTurn;
 let pcTurn;
 let winnerGame = false;
-// only allow player board interaction when it is players turn
+
 
 function playGame() {
-  console.log(goFirst);
+
   // first move - determine who goes first
   if(goFirst === "player") {
     hasClicked = false;
@@ -136,12 +136,6 @@ function playGame() {
     pcMove();
   }
 
-  // need to switch between symbols
-  // subsequent moves
-  // no longer first move
-
-
-  // after each move need to check for game end - done in individual functions
 }
 
 function cellClick(event) {
@@ -162,12 +156,11 @@ function cellClick(event) {
   playerTurn = false;
 
   if (winnerGame === false ) {
-    pcMove()
+    setTimeout(pcMove(), 700);
   }
 }
 
 function playerMove(){
-
 
   // array of empty divs 
   var emptyCells = getEmpty();
@@ -194,43 +187,35 @@ function playerMove(){
 
 function pcMove() {
 
-    console.log("pcmove");
-  //if (playerTurn === false) {
-    // disable player interaction
-    cells.forEach(cell => { cell.removeEventListener('click', cellClick)});
+  // only allow player board interaction when it is players turn
+  cells.forEach(cell => { cell.removeEventListener('click', cellClick)});
 
-    // array of empty divs 
-    var emptyCells = getEmpty();
+  // array of empty divs 
+  var emptyCells = getEmpty();
 
-    // get a random number between 0 an 8 
-    random = Math.ceil(Math.random() * emptyCells.length) - 1;
-    console.log(random);
-    pcCell = emptyCells[random];
-    console.log(pcCell);
+  // get a random number between 0 an 8 
+  random = Math.ceil(Math.random() * emptyCells.length) - 1;
+  pcCell = emptyCells[random];
 
-    // select a random div to add symbol
-    if(pc === "X"){
-      let c = pcCell.querySelector(".cross");
-      c.classList.toggle('hidden');
-      pcCell.classList.add(cross);
-      winner(pc);
-    }else if(pc === "O"){
-      let c = pcCell.querySelector(".circle");
-      c.classList.toggle('hidden')
-      pcCell.classList.add(circle);
-      winner(pc);
-    }
-    // player move
-    playerTurn = true;
-    hasClicked = false;
-    
-    console.log(winnerGame);
-    if (winnerGame === false){
-      playerMove()
-    }
-  //}
-  // check end game
-
+  // select a random div to add symbol
+  if(pc === "X"){
+    let c = pcCell.querySelector(".cross");
+    c.classList.toggle('hidden');
+    pcCell.classList.add(cross);
+    winner(pc);
+  }else if(pc === "O"){
+    let c = pcCell.querySelector(".circle");
+    c.classList.toggle('hidden')
+    pcCell.classList.add(circle);
+    winner(pc);
+  }
+  // player move
+  playerTurn = true;
+  hasClicked = false;
+  
+  if (winnerGame === false){
+    playerMove()
+  }
 };
 
 
@@ -240,11 +225,8 @@ function pcMove() {
 
 
 // determine empty cells
-// array of empty divs 
 function getEmpty() {
-
   let emptyCells = [];
-
   cells.forEach(cell => {
     // check if cell is empty
     if (cell.classList.contains(circle) || cell.classList.contains(cross)) {
@@ -253,7 +235,6 @@ function getEmpty() {
       emptyCells.push(cell);     
     }
   });
-  //console.log(emptyCells);
   return emptyCells;
 }
 
@@ -314,61 +295,6 @@ function winner(currentClass) {
   }
 }
 
-
-/*
-// need to change this function so that playGame takes over some of the functionality
-function handleClick() {
-
-  // check who's turn it is
-  let currentClass = isPlayer_O_Turn ? circle : cross;
-
-  // check if pc or player
-
-    // add figure in cell 
-    if (currentClass === "X"){
-        // toggle cross visibility
-        let c = this.querySelector(".cross");
-        c.classList.toggle('hidden')
-
-        // to determine winning add class to each cell depending on type X or O
-        this.classList.add(cross)
-
-        // if returns true, end game 
-        if (checkWin(currentClass) === true){
-          endGame(true,currentClass);
-        }else if (isDraw() === true){
-          endGame(false,currentClass);
-        }
-        // swap classes
-        isPlayer_O_Turn = true
-    } else {
-        let c = this.querySelector(".circle");
-        c.classList.toggle('hidden')
-        
-        // add class list to determine winning
-        this.classList.add(circle)
-
-        // if returns true, end game 
-        if (checkWin(currentClass) === true){
-          endGame(true,currentClass);
-        }else if (isDraw() === true){
-          endGame(false,currentClass);
-        }
-
-        // swap classes
-        isPlayer_O_Turn = false
-    }
-
-    // Remove the click event listener for cell
-    this.removeEventListener('click', handleClick);
-
-    // remove hover styling when cell contains item
-    this.onmouseover = null;
-}
-*/
-
-
-
 /* =========================== End game ================================= */
 
 let winningMessageElement = document.querySelector('.endgame');
@@ -428,16 +354,6 @@ function endGame(end, classtype) {
     tiesDiv.innerHTML = ties
     shakeScore("ties")
   }
-
-  /*
-  // remove hover etc from remaining cells
-  cells.forEach(cell => {
-      // Remove the click event listener for cell
-      cell.removeEventListener('click', handleClick);
-
-      // remove hover styling 
-      cell.onmouseover = null;
-  }); */
 
   // show winning message
   setTimeout(() => {
@@ -568,21 +484,6 @@ function resetGrid() {
     // remove classess added to determine winning combination
     cell.classList.remove(circle);
     cell.classList.remove(cross);
-
-    
-    /* replace this with startGame function 
-    // Add the click event listener back to all cells
-    cell.addEventListener('click', handleClick);
-
-    // add hover styling when cell contains item
-    cell.onmouseover = function() {
-      this.style.boxShadow = "0px 0px 10px 2px rgba(0,0,0, 0.75)";
-    };  
-
-    // add hover styling when cell contains item
-    cell.onmouseleave = function() {
-      this.style.boxShadow = "none";
-    }; */
 
   });
 
