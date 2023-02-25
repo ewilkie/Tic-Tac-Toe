@@ -120,6 +120,7 @@ buttonStart.addEventListener('click', startGame);
 let hasClicked;
 let playerTurn;
 let pcTurn;
+let winnerGame = false;
 // only allow player board interaction when it is players turn
 
 function playGame() {
@@ -150,17 +151,19 @@ function cellClick(event) {
     let c = cellc.querySelector(".cross");
     c.classList.toggle('hidden')
     cellc.classList.add(cross);
+    winner(player);
   }else if(player === "O"){
     let c = cellc.querySelector(".circle");
     c.classList.toggle('hidden')
     cellc.classList.add(circle);
+    winner(player);
   }
   hasClicked = true;
   playerTurn = false;
 
-  console.log("playermoved");
-  console.log(cellc);
-  pcMove()
+  if (winnerGame === false ) {
+    pcMove()
+  }
 }
 
 function playerMove(){
@@ -210,16 +213,21 @@ function pcMove() {
       let c = pcCell.querySelector(".cross");
       c.classList.toggle('hidden');
       pcCell.classList.add(cross);
+      winner(pc);
     }else if(pc === "O"){
       let c = pcCell.querySelector(".circle");
       c.classList.toggle('hidden')
       pcCell.classList.add(circle);
+      winner(pc);
     }
     // player move
     playerTurn = true;
     hasClicked = false;
-
-    playerMove()
+    
+    console.log(winnerGame);
+    if (winnerGame === false){
+      playerMove()
+    }
   //}
   // check end game
 
@@ -240,14 +248,13 @@ function getEmpty() {
   cells.forEach(cell => {
     // check if cell is empty
     if (cell.classList.contains(circle) || cell.classList.contains(cross)) {
-      console.log("not empty");
+      // do nothing
     } else {
       emptyCells.push(cell);     
     }
   });
-  console.log(emptyCells);
+  //console.log(emptyCells);
   return emptyCells;
-  
 }
 
 
@@ -296,6 +303,16 @@ function isDraw() {
 	})
 }
 
+
+function winner(currentClass) {
+  if (checkWin(currentClass) === true){
+    endGame(true,currentClass);
+    winnerGame = true;
+  }else if (isDraw() === true){
+    endGame(false,currentClass);
+    winnerGame = true;
+  }
+}
 
 
 /*
@@ -412,6 +429,7 @@ function endGame(end, classtype) {
     shakeScore("ties")
   }
 
+  /*
   // remove hover etc from remaining cells
   cells.forEach(cell => {
       // Remove the click event listener for cell
@@ -419,7 +437,7 @@ function endGame(end, classtype) {
 
       // remove hover styling 
       cell.onmouseover = null;
-  });
+  }); */
 
   // show winning message
   setTimeout(() => {
@@ -568,6 +586,9 @@ function resetGrid() {
 
   });
 
+  winningMessageElement.classList.add('hidden');
+  winnerGame = false;
+
   // remove winning line
   let wl = document.querySelector('.winning-line'); 
   if (wl !== null) {
@@ -586,7 +607,6 @@ function resetGrid() {
 let buttonReplay = document.querySelector('#replaybutton');
 
 function resetGame() {
-  winningMessageElement.classList.add('hidden');
   resetGrid()
   switchFirst()
   playGame();
@@ -600,7 +620,6 @@ buttonReplay.addEventListener('click', resetGame);
 let buttonQuit = document.querySelector('#quitbutton');
 
 function quitGame() {
-  winningMessageElement.classList.add('hidden');
   resetGrid()
   startDiv.classList.remove("hidden");
   mainDiv.classList.add("hidden");
