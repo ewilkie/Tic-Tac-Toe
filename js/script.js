@@ -22,10 +22,11 @@ let player_symbol = document.querySelector('.score-player-symbol');
 let pc_symbol = document.querySelector('.score-pc-symbol');
 
 
-// these two variables seem redundant
+// to assign symbol based on game start selection
 let cross = "X";
 let circle = "O";
 
+// to check for winning combination and allow symbol switching
 let player;
 let pc;
 
@@ -112,7 +113,7 @@ buttonStart.addEventListener('click', startGame);
 
 /* =========================== Game Logic ================================= */
 
-let winnerGame = false;
+let gameOver = false;
 
 // first move - determine who goes first
 function playGame() {
@@ -146,7 +147,7 @@ function cellClick(event) {
   let cellc = event.target;
   drawPawn(player, cellc)
   winner(player);
-  if (winnerGame === false ) {
+  if (gameOver === false ) {
     setTimeout(pcMove(), 700);
   }
 }
@@ -167,7 +168,7 @@ function pcMove() {
   drawPawn(pc, pcCell)
   winner(pc);
   
-  if (winnerGame === false){
+  if (gameOver === false){
     playerMove()
   }
 };
@@ -199,6 +200,16 @@ function getEmpty() {
   return emptyCells;
 }
 
+/* =========================== End game ================================= */
+
+// end game pop-up
+let winningMessageElement = document.querySelector('.endgame');
+let winningMessageText = document.querySelector('#winningMessageText');
+
+// scoreboard
+let playerScoreDiv = document.querySelector('.score-player');
+let pcScoreDiv = document.querySelector('.score-pc');
+let tiesDiv = document.querySelector('.ties');
 
 
 const WINNING_COMBINATIONS = [
@@ -212,29 +223,12 @@ const WINNING_COMBINATIONS = [
 	[2, 4, 6]
 ]
 
-
-//-------------------------
-// Can I make checkWin and getWin into one function? or use getWin for both since these are very similar? 
-//------------------------
-
-
-// checks whether any of the winning combinations through 'some' contains 'every' current class list in cellElements. 
-// the every method and the some method need to return true for there to be a winner
-// So cell elements needs to be subsettable via index
-function checkWin(currentClass) {
-	return WINNING_COMBINATIONS.some(combination => {
-		return combination.every(index => {
-			return cellElements[index].classList.contains(currentClass);
-		})
-	})
-}
-
 // how to determine which winning combination to draw a line through it
 // returns an array [0,1,2] with the index of the cells
-function getWin(currentClass) {
+function getWin(currentPawn) {
 	return WINNING_COMBINATIONS.find(combination => {
 		return combination.every(index => {
-			 return cellElements[index].classList.contains(currentClass);
+			 return cellElements[index].classList.contains(currentPawn);
 		})
 	})
 }
@@ -246,75 +240,66 @@ function isDraw() {
 	})
 }
 
-
-function winner(currentClass) {
-  if (checkWin(currentClass) === true){
-    endGame(true,currentClass);
-    winnerGame = true;
+// checks for game end after each move
+function winner(currentPawn) {
+  if(getWin(currentPawn)) {
+    endGameWin(currentPawn);
+    gameOver = true;
   }else if (isDraw() === true){
-    endGame(false,currentClass);
-    winnerGame = true;
+    endGameDraw();
+    gameOver = true;
   }
 }
 
-/* =========================== End game ================================= */
+function endGameDraw() {
 
-let winningMessageElement = document.querySelector('.endgame');
-let winningMessageText = document.querySelector('#winningMessageText');
+  let ties = parseInt(tiesDiv.textContent);
+  winningMessageText.textContent = "It's a draw";
+  ties += 1;
+  tiesDiv.innerHTML = ties;
+  shakeScore("ties");
 
-// check which player is what symbol
-// keep track of score
+  // show winning message
+  setTimeout(() => {
+    winningMessageElement.classList.remove('hidden');
+  }, 500);
+}
 
-let playerScoreDiv = document.querySelector('.score-player');
-let pcScoreDiv = document.querySelector('.score-pc');
-let tiesDiv = document.querySelector('.ties');
-
-
-function endGame(end, classtype) {
+function endGameWin(classtype) {
 
   // get scores
   let playerScore = parseInt(playerScoreDiv.textContent);
   let pcScore = parseInt(pcScoreDiv.textContent);
-  let ties = parseInt(tiesDiv.textContent);
 
-  if (end === true){
-
-    if(classtype === "X" && player === "X") {
-      // drawing lines function
-      drawWinningLine(classtype);
-      winningMessageText.textContent = "You win";
-      // update score
-      playerScore += 1;
-      playerScoreDiv.innerHTML = playerScore
-      shakeScore("player")
-    } else if (classtype === "X" && pc === "X"){
-        // drawing lines function
-        drawWinningLine(classtype);
-        winningMessageText.textContent = "PC wins";
-        pcScore += 1;
-        pcScoreDiv.innerHTML = pcScore
-        shakeScore("pc")
-    } else if(classtype === "O" && player === "O") {
-      // drawing lines function
-        drawWinningLine(classtype);
-        winningMessageText.textContent = "You win";
-        playerScore += 1;
-        playerScoreDiv.innerHTML = playerScore
-        shakeScore("player")
-    } else if (classtype === "O" && pc === "O"){
-        // drawing lines function
-        drawWinningLine(classtype);
-        winningMessageText.textContent = "PC wins";
-        pcScore += 1;
-        pcScoreDiv.innerHTML = pcScore
-        shakeScore("pc")
-    }
-    
-  } else if (end === false){
-    winningMessageText.textContent = "It's a draw";
-    ties += 1;
-    tiesDiv.innerHTML = ties;
-    shakeScore("ties");
+  if(classtype === "X" && player === "X") {
+    // drawing lines function
+    drawWinningLine(classtype);
+    winningMessageText.textContent = "You win";
+    // update score
+    playerScore += 1;
+    playerScoreDiv.innerHTML = playerScore
+    shakeScore("player")
+  } else if (classtype === "X" && pc === "X"){
+    // drawing lines function
+    drawWinningLine(classtype);
+    winningMessageText.textContent = "PC wins";
+    pcScore += 1;
+    pcScoreDiv.innerHTML = pcScore
+    shakeScore("pc")
+  } else if(classtype === "O" && player === "O") {
+    // drawing lines function
+    drawWinningLine(classtype);
+    winningMessageText.textContent = "You win";
+    playerScore += 1;
+    playerScoreDiv.innerHTML = playerScore
+    shakeScore("player")
+  } else if (classtype === "O" && pc === "O"){
+    // drawing lines function
+    drawWinningLine(classtype);
+    winningMessageText.textContent = "PC wins";
+    pcScore += 1;
+    pcScoreDiv.innerHTML = pcScore
+    shakeScore("pc")
   }
 
   // show winning message
@@ -450,7 +435,7 @@ function resetGrid() {
   });
 
   winningMessageElement.classList.add('hidden');
-  winnerGame = false;
+  gameOver = false;
 
   // remove winning line
   let wl = document.querySelector('.winning-line'); 
