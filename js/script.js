@@ -1,9 +1,9 @@
 /* TODO */
-// define computer logic
+// condense code
 // timing of line, box shake and winning pop-up
 // sounds
 // styling
-
+// make computer logic more sophisticated
 
 
 /* =========================== Player selection ================================= */
@@ -17,17 +17,16 @@ let circleSelect = document.querySelector('.circle');
 let crossSpan = document.querySelectorAll('.cross-span');
 let circleSpan = document.querySelector('.circle-span');
 
-let isPlayer_O_Turn;
 let player_symbol = document.querySelector('.score-player-symbol');
 let pc_symbol = document.querySelector('.score-pc-symbol');
 
+
+// these two variables seem redundant
 let cross = "X";
 let circle = "O";
 
 let player;
 let pc;
-
-let gameStartVar;
 
 // to keep track of if computer goes first or someone else
 let goFirst;
@@ -35,44 +34,34 @@ let goFirst;
 // need to refine this so its less hacky using a different method from changing style ?
 function playerSelection(event, type) {
   event.preventDefault();
-    if (type === cross){
+  if (type === cross){
+    // change symbol colours
+    crossSpan.forEach(c => {c.style.backgroundColor = "black"});
+    circleSpan.style.border = "10px solid #5DB6AA";
+    // change scoreboard text
+    player_symbol.innerHTML = "Player - X";
+    pc_symbol.innerHTML = " PC - O";
 
-      crossSpan.forEach(c => {c.style.backgroundColor = "black"});
-      circleSpan.style.border = "10px solid #5DB6AA";
+    player = "X";
+    pc = "O";
 
-      isPlayer_O_Turn = false;
-      player_symbol.innerHTML = "Player 1 - X";
-      pc_symbol.innerHTML = " Player 2 - O";
+    // who goes first
+    goFirst = "player";
 
-      player = "X";
-      pc = "O";
-
-      goFirst = "player";
-
-    } else {
-
-      circleSpan.style.border = "10px solid black";
-      crossSpan.forEach(c => {c.style.backgroundColor = "#B75D69"});
-
-      isPlayer_O_Turn = true;
-      player_symbol.innerHTML = "Player 1 - O";
-      pc_symbol.innerHTML = "Player 2 - X";
-
-      player = "O";
-      pc = "X";
-
-      goFirst = "pc";
-
-    }
-    gameStartVar = true;
-  
-}
-
-function switchFirst() {
-  if (goFirst  == 'pc') {
-    goFirst = 'player';
   } else {
-    goFirst = 'pc';
+    // change symbol colours
+    circleSpan.style.border = "10px solid black";
+    crossSpan.forEach(c => {c.style.backgroundColor = "#B75D69"});
+    // change scoreboard text
+    player_symbol.innerHTML = "Player - O";
+    pc_symbol.innerHTML = "PC - X";
+
+    player = "O";
+    pc = "X";
+
+    // who goes first
+    goFirst = "pc";
+
   }
 }
 
@@ -95,9 +84,8 @@ let cellElements = Array.from(cells)
 let playAs = document.querySelector('.playas');
 
 function startGame(event) {
-
   //prevent game start without a selection being made
-  if(goFirst === undefined ){
+  if(goFirst === false){
     event.preventDefault();
     playAs.innerHTML = "Please make a selection";
     playAs.style.color = "red";
@@ -109,6 +97,10 @@ function startGame(event) {
     // return icons to original color
     crossSpan.forEach(c => {c.style.backgroundColor = "#B75D69"});
     circleSpan.style.border = "10px solid #5DB6AA";
+
+    // return text to default if 
+    playAs.innerHTML = "Make your selection:";
+    playAs.style.color = "black";
   }
 
   // initialise game play
@@ -127,7 +119,6 @@ let winnerGame = false;
 
 
 function playGame() {
-
   // first move - determine who goes first
   if(goFirst === "player") {
     hasClicked = false;
@@ -138,9 +129,9 @@ function playGame() {
     playerTurn = false;
     pcMove();
   }
-
 }
 
+// event for each cell 
 function cellClick(event) {
   let cellc = event.target;
 
@@ -164,34 +155,30 @@ function cellClick(event) {
 }
 
 function playerMove(){
-
   // array of empty divs 
   var emptyCells = getEmpty();
-
   // add hover function for empty cells in grid
   emptyCells.forEach(cell => {
     // add hover styling 
     cell.onmouseover = function() {
       this.style.boxShadow = "0px 0px 10px 2px rgba(0,0,0, 0.75)";
-    };  
-    
+    };      
     // remove hover styling when cell contains item
     cell.onmouseleave = function() {
       this.style.boxShadow = "none";
     };
-
     // add click event 
     cell.addEventListener('click', cellClick);
-
   });
-
 }
 
 
 function pcMove() {
-
   // only allow player board interaction when it is players turn
-  cells.forEach(cell => { cell.removeEventListener('click', cellClick)});
+  cells.forEach(cell => { 
+    cell.removeEventListener('click', cellClick);
+    cell.onmouseover = null;
+  });
 
   // array of empty divs 
   var emptyCells = getEmpty();
@@ -240,7 +227,6 @@ function getEmpty() {
   });
   return emptyCells;
 }
-
 
 const WINNING_COMBINATIONS = [
 	[0, 1, 2],
@@ -361,7 +347,7 @@ function endGame(end, classtype) {
   // show winning message
   setTimeout(() => {
     winningMessageElement.classList.remove('hidden');
-  }, 1000);
+  }, 500);
 }
 
 
@@ -510,6 +496,16 @@ function resetGrid() {
 
 let buttonReplay = document.querySelector('#replaybutton');
 
+// switch between starting player for each game when replaying game
+function switchFirst() {
+  if (goFirst  == 'pc') {
+    goFirst = 'player';
+  } else {
+    goFirst = 'pc';
+  }
+}
+
+
 function resetGame() {
   resetGrid()
   switchFirst()
@@ -525,20 +521,20 @@ let buttonQuit = document.querySelector('#quitbutton');
 
 function quitGame() {
   resetGrid()
+
+  // display start screen etc
   startDiv.classList.remove("hidden");
   mainDiv.classList.add("hidden");
   startDiv.classList.remove("hidden");
 
-  resetGrid()
-  gameStartVar = false;
+  // prevent button start
+  goFirst = false;
 
   // reset score
   playerScoreDiv.innerHTML = 0
   pcScoreDiv.innerHTML = 0
   tiesDiv = 0;
 
-  playAs.innerHTML = "Play as:";
-  playAs.style.color = "black";
 }
 
 buttonQuit.addEventListener('click', quitGame);
