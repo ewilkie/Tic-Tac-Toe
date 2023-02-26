@@ -17,6 +17,7 @@ let circleSelect = document.querySelector('.circle');
 let crossSpan = document.querySelectorAll('.cross-span');
 let circleSpan = document.querySelector('.circle-span');
 
+// change scoreboard text
 let player_symbol = document.querySelector('.score-player-symbol');
 let pc_symbol = document.querySelector('.score-pc-symbol');
 
@@ -109,48 +110,16 @@ function startGame(event) {
 
 buttonStart.addEventListener('click', startGame);
 
+/* =========================== Game Logic ================================= */
 
-// this function needs to control switching between whos turn it is an execute functionality based on this
-// also called in resetGrid function to start game again 
-let hasClicked;
-let playerTurn;
-let pcTurn;
 let winnerGame = false;
 
-
+// first move - determine who goes first
 function playGame() {
-  // first move - determine who goes first
   if(goFirst === "player") {
-    hasClicked = false;
-    playerTurn = true;
     playerMove();
-  } else if( goFirst === "pc"){
-    hasClicked = true;
-    playerTurn = false;
+  } else if(goFirst === "pc"){
     pcMove();
-  }
-}
-
-// event for each cell 
-function cellClick(event) {
-  let cellc = event.target;
-
-  if(player === "X"){
-    let c = cellc.querySelector(".cross");
-    c.classList.toggle('hidden')
-    cellc.classList.add(cross);
-    winner(player);
-  }else if(player === "O"){
-    let c = cellc.querySelector(".circle");
-    c.classList.toggle('hidden')
-    cellc.classList.add(circle);
-    winner(player);
-  }
-  hasClicked = true;
-  playerTurn = false;
-
-  if (winnerGame === false ) {
-    setTimeout(pcMove(), 700);
   }
 }
 
@@ -172,9 +141,19 @@ function playerMove(){
   });
 }
 
+// event for each cell for player click
+function cellClick(event) {
+  let cellc = event.target;
+  drawPawn(player, cellc)
+  winner(player);
+  if (winnerGame === false ) {
+    setTimeout(pcMove(), 700);
+  }
+}
+
 
 function pcMove() {
-  // only allow player board interaction when it is players turn
+  // only allow player board interaction for non pc items
   cells.forEach(cell => { 
     cell.removeEventListener('click', cellClick);
     cell.onmouseover = null;
@@ -182,37 +161,29 @@ function pcMove() {
 
   // array of empty divs 
   var emptyCells = getEmpty();
-
   // get a random number between 0 an 8 
   random = Math.ceil(Math.random() * emptyCells.length) - 1;
   pcCell = emptyCells[random];
-
-  // select a random div to add symbol
-  if(pc === "X"){
-    let c = pcCell.querySelector(".cross");
-    c.classList.toggle('hidden');
-    pcCell.classList.add(cross);
-    winner(pc);
-  }else if(pc === "O"){
-    let c = pcCell.querySelector(".circle");
-    c.classList.toggle('hidden')
-    pcCell.classList.add(circle);
-    winner(pc);
-  }
-  // player move
-  playerTurn = true;
-  hasClicked = false;
+  drawPawn(pc, pcCell)
+  winner(pc);
   
   if (winnerGame === false){
     playerMove()
   }
 };
 
-
-
-
-/* =========================== Game Logic ================================= */
-
+// make move visible on screen 
+function drawPawn(pawn, cellArray) {
+  if(pawn === "X"){
+    let c = cellArray.querySelector(".cross");
+    c.classList.toggle('hidden');
+    cellArray.classList.add(cross);    
+  }else if(pawn === "O"){
+    let c = cellArray.querySelector(".circle");
+    c.classList.toggle('hidden')
+    cellArray.classList.add(circle);
+  }
+}
 
 // determine empty cells
 function getEmpty() {
@@ -227,6 +198,8 @@ function getEmpty() {
   });
   return emptyCells;
 }
+
+
 
 const WINNING_COMBINATIONS = [
 	[0, 1, 2],
@@ -350,7 +323,7 @@ function endGame(end, classtype) {
   }, 500);
 }
 
-
+/* ================================ Winning effects ============================= */
 
 function drawWinningLine(symbol) {
 
@@ -504,7 +477,6 @@ function switchFirst() {
     goFirst = 'pc';
   }
 }
-
 
 function resetGame() {
   resetGrid()
